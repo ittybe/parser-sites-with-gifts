@@ -76,19 +76,12 @@
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
           <widget class="QListWidget" name="listWidget">
+           <property name="selectionMode">
+            <enum>QAbstractItemView::MultiSelection</enum>
+           </property>
            <item>
             <property name="text">
              <string>Выбрать всё</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Подарки</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Кружки</string>
             </property>
            </item>
           </widget>
@@ -123,16 +116,6 @@
            <item>
             <property name="text">
              <string>Выбрать всё</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Подарки</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Кружки</string>
             </property>
            </item>
           </widget>
@@ -181,16 +164,6 @@
            <item>
             <property name="text">
              <string>Выбрать всё</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Подарки</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Кружки</string>
             </property>
            </item>
           </widget>
@@ -257,7 +230,7 @@
      <x>0</x>
      <y>0</y>
      <width>926</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
