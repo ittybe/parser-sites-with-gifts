@@ -12,7 +12,13 @@ class HappyGifts:
         categories = []
         for el in html.select('.catalog-block'):
             title = el.select('.title')
-            categories.append({'title': title[0].text, 'href': title[0]['href']})
+            list_item = el.select('.catalog-block-list-item')
+            subcategories = []
+            if list_item:
+                for item in list_item:
+                    subcategorie = item.select('a')
+                    subcategories.append({'title': subcategorie[0].text, 'href': subcategorie[0]['href']})
+            categories.append({'title': title[0].text, 'href': title[0]['href'], 'subcategories': subcategories})
         return categories
 
     def parser_goods(self, href):
@@ -22,7 +28,10 @@ class HappyGifts:
         goods = []
         navigation = html.select('.catalog-pagination.modern-page-navigation')
         max_page = navigation[0].select('a')
-        max_page = int(max_page[-2].text)
+        if max_page:
+            max_page = int(max_page[-2].text)
+        else:
+            max_page = 1
         for i in range(1, max_page+1):
             print('cтраница %i' %i)
             r = requests.get(first_page+'?PAGEN_1=' + str(i))
