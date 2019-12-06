@@ -41,5 +41,34 @@ class HappyGifts:
                 if text_container:
                     title = text_container[0].select('.product-title')
                     goods.append({'title': title[0].text, 'href': title[0]['href']})
-        print(goods)
         return goods
+
+    def parser_good(self, href):
+        page = self.main_page + href[1:]
+        r = requests.get(page)
+        html = BS(r.content, 'html.parser')
+        name_block = html.select('#name_block_set0')
+        name = name_block[0].select('h1')[0].text
+        price = html.select('.vu-price')[0].text
+        price = price.replace('\n', '')
+        price = price.strip()
+        price = price.replace(' ', '')
+        price = float(price)
+        try:
+            settings = html.select('.product-tab-blocks')[0]
+            headings = settings.select('h3')
+            contents = settings.select('div')
+            for content in contents:
+                print(content['class'])
+
+            print(len(contents))
+            print(len(headings))
+            for content in contents:
+                print(content)
+            # for head in headings:
+            #     if head.text == 'Описание товара':
+            #         description = contents[headings.index(head)]
+            #         print(description)
+        except Exception as ex:
+            print('оШибка')
+            print(ex)

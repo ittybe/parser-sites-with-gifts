@@ -12,6 +12,7 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         self.setupUi(self)
         self.comboBox.addItem('https://happygifts.ru/')
         self.pushButton.clicked.connect(self.update_categorie)
+        self.pushButton_2.clicked.connect(self.save_excel)
         self.treeWidget.itemClicked.connect(self.update_goods)
         self.categories = []
         self.goods = []
@@ -20,7 +21,6 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         if self.comboBox.currentText() == 'https://happygifts.ru/':
             self.categories = HappyGifts().parser_category()
         self.treeWidget.clear()
-        print(self.categories)
         for categorie in self.categories:
             item = QtWidgets.QTreeWidgetItem(self.treeWidget)
             item.setText(0, categorie['title'])
@@ -44,11 +44,16 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                     if categorie['subcategories']:
                         for subcategorie in categorie['subcategories']:
                             if subcategorie['title'] == item.text(0):
-                                print(subcategorie['href'])
                                 goods = HappyGifts().parser_goods(subcategorie['href'])
                                 for good in goods:
                                     self.goods.append(good)
                                     self.listWidget_2.addItem(good['title'])
+
+    def save_excel(self):
+        for item in self.listWidget_2.selectedItems():
+            for good in self.goods:
+                if good['title'] == item.text():
+                    HappyGifts().parser_good(good['href'])
 
 
 
