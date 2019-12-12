@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>926</width>
-    <height>715</height>
+    <width>871</width>
+    <height>828</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -48,7 +48,7 @@
      <rect>
       <x>20</x>
       <y>110</y>
-      <width>881</width>
+      <width>841</width>
       <height>431</height>
      </rect>
     </property>
@@ -59,6 +59,12 @@
         <size>
          <width>288</width>
          <height>139</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>350</width>
+         <height>16777215</height>
         </size>
        </property>
        <property name="title">
@@ -76,25 +82,34 @@
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
           <widget class="QTreeWidget" name="treeWidget">
+           <property name="maximumSize">
+            <size>
+             <width>330</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <column>
             <property name="text">
              <string>Категории</string>
             </property>
            </column>
-           <item>
-            <property name="text">
-             <string>Test</string>
-            </property>
-            <item>
-             <property name="text">
-              <string>test2</string>
-             </property>
-            </item>
-           </item>
           </widget>
          </item>
         </layout>
        </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_5">
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>&gt;&gt;&gt;</string>
+       </property>
       </widget>
      </item>
      <item>
@@ -144,51 +159,38 @@
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>790</x>
+      <x>770</x>
       <y>550</y>
       <width>93</width>
       <height>28</height>
      </rect>
     </property>
     <property name="text">
-     <string>Парс</string>
+     <string>Добавить</string>
     </property>
    </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_2">
+   <widget class="QListWidget" name="listWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>580</y>
-      <width>391</width>
-      <height>31</height>
+      <y>590</y>
+      <width>841</width>
+      <height>121</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>ссылка</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEdit"/>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_3">
-       <property name="text">
-        <string>Парс</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+   </widget>
+   <widget class="QPushButton" name="pushButton_3">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>720</y>
+      <width>91</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Парсинг</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -196,7 +198,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>926</width>
+     <width>871</width>
      <height>26</height>
     </rect>
    </property>

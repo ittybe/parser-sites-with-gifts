@@ -40,35 +40,71 @@ class HappyGifts:
                 text_container = el.select('.text-container')
                 if text_container:
                     title = text_container[0].select('.product-title')
-                    goods.append({'title': title[0].text, 'href': title[0]['href']})
+                    product_number = text_container[0].select('.product-number')[0]['title']
+                    goods.append({'title': title[0].text, 'href': title[0]['href'],'vendor code': product_number})
         return goods
 
-    def parser_good(self, href):
-        page = self.main_page + href[1:]
-        r = requests.get(page)
-        html = BS(r.content, 'html.parser')
-        name_block = html.select('#name_block_set0')
-        name = name_block[0].select('h1')[0].text
-        price = html.select('.vu-price')[0].text
-        price = price.replace('\n', '')
-        price = price.strip()
-        price = price.replace(' ', '')
-        price = float(price)
-        try:
-            settings = html.select('.product-tab-blocks')[0]
-            headings = settings.select('h3')
-            contents = settings.select('div')
-            for content in contents:
-                print(content['class'])
 
-            print(len(contents))
-            print(len(headings))
-            for content in contents:
-                print(content)
-            # for head in headings:
-            #     if head.text == 'Описание товара':
-            #         description = contents[headings.index(head)]
-            #         print(description)
+    def parser_good(self, page):
+        try:
+            r = requests.get(page)
+            html = BS(r.content, 'html.parser')
+            name_block = html.select('#name_block_set0')
+            name = name_block[0].select('h1')[0].text
+            prices = html.select('.vu-price')
+            for price in prices:
+                price_out = price.text
+                price_out = price_out.replace('\n', '')
+                price_out = price_out.strip()
+                price_out = price_out.replace(' ', '')
+                price_out = price_out.replace('Р', '')
+                price_out = float(price_out)
+                prices[prices.index(price)] = price_out
+            section = html.select('.breadcrumb-item.link-parent')[0].select('.breadcrumb-title')[0]['title']
+            marks = html.select('.icons-container')[0].select('span')
+            if marks:
+                for mark in marks:
+                    if mark['class'][0] == "md_DownToZero":
+                        marks[marks.index(mark)] = mark['title']
+                    else:
+                        marks[marks.index(mark)] = mark.text
+            colors = html.select('.color-item')
+            for color in colors:
+                colors[colors.index(color)] = color.select('div')[0]['data-title'].split(' (')[0]
+            stock_availability = html.select('.add_basket')
+            for stoks in stock_availability:
+                stoks_ind = stoks.select('.number-all')
+                for stock in stoks_ind:
+                    stoks_ind[stoks_ind.index(stock)] = int(stock.text)
+                stock_availability[stock_availability.index(stoks)] = stoks_ind
+            informations = html.select('.product-tab-blocks')
+            descriptions = []
+            materials = []
+            for information in informations:
+                inf_select = information.select('h3')
+                p_select = information.select('div')
+                for inf in inf_select:
+                    if inf.text == 'Описание товара':
+                        output_text = ''
+                        for p in p_select[inf_select.index(inf)].select('p'):
+                            output_text += p.text+' '
+                        descriptions.append(output_text)
+                    if inf.text == 'Характеристики':
+                        for p in p_select[inf_select.index(inf)+1].select('p'):
+                            split_text = p.text.split(': ', 1)
+                            if split_text[0] == 'Материал':
+                                materials.append(split_text[1])
+            print("Раздел: " + section)
+            print("Название: " + name)
+            print("Ссылка: " + page)
+            print("Отметки: " + str(marks))
+            print("Цены: " +str(prices))
+            print("Цвета: " + str(colors))
+            print("Наличие на складах : " + str(stock_availability))
+            print("Описание товаров : " + str(len(descriptions)))
+            print("Материал : " + str(materials))
+
         except Exception as ex:
-            print('оШибка')
+            print("[EROR]*****************************************************")
             print(ex)
+            print("[EROR]*****************************************************")

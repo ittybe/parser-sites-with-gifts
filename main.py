@@ -12,8 +12,11 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         self.setupUi(self)
         self.comboBox.addItem('https://happygifts.ru/')
         self.pushButton.clicked.connect(self.update_categorie)
-        self.pushButton_2.clicked.connect(self.save_excel)
-        self.treeWidget.itemClicked.connect(self.update_goods)
+        #self.treeWidget.itemClicked.connect(self.update_goods)
+        self.listWidget.itemClicked.connect(self.remove_href)
+        self.pushButton_5.clicked.connect(self.update_goods)
+        self.pushButton_2.clicked.connect(self.add_in_outlist)
+        self.pushButton_3.clicked.connect(self.parsing)
         self.categories = []
         self.goods = []
 
@@ -39,7 +42,7 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                         goods = HappyGifts().parser_goods(categorie['href'])
                         for good in goods:
                             self.goods.append(good)
-                            self.listWidget_2.addItem(good['title'])
+                            self.listWidget_2.addItem(good['title']+' Артикул:' + good['vendor code'])
                 else:
                     if categorie['subcategories']:
                         for subcategorie in categorie['subcategories']:
@@ -47,13 +50,28 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                                 goods = HappyGifts().parser_goods(subcategorie['href'])
                                 for good in goods:
                                     self.goods.append(good)
-                                    self.listWidget_2.addItem(good['title'])
+                                    self.listWidget_2.addItem(good['title']+' Артикул:' + good['vendor code'])
 
-    def save_excel(self):
-        for item in self.listWidget_2.selectedItems():
+
+    def add_in_outlist(self):
+        for select_item in self.listWidget_2.selectedItems():
             for good in self.goods:
-                if good['title'] == item.text():
-                    HappyGifts().parser_good(good['href'])
+                item = good['title']+' Артикул:' + good['vendor code']
+                if item == select_item.text():
+                    if self.comboBox.currentText() == 'https://happygifts.ru/':
+                        self.listWidget.addItem('https://happygifts.ru/' + good['href'][1:])
+
+    def parsing(self):
+        for i in range(0,self.listWidget.count()):
+            splited = self.listWidget.item(i).text().split('/')
+            main_page = splited[0]+'//' + splited[2] + '/'
+            if main_page == 'https://happygifts.ru/':
+                good = HappyGifts().parser_good(self.listWidget.item(i).text())
+
+    def remove_href(self):
+        for item in self.listWidget.selectedItems():
+            self.listWidget.takeItem(self.listWidget.row(item))
+
 
 
 
