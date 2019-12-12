@@ -71,7 +71,7 @@ class HappyGifts:
             colors = html.select('.color-item')
             for color in colors:
                 colors[colors.index(color)] = color.select('div')[0]['data-title'].split(' (')[0]
-            stock_availability = html.select('.add_basket')
+            stock_availability = html.select('.avilability-numbers')
             for stoks in stock_availability:
                 stoks_ind = stoks.select('.number-all')
                 for stock in stoks_ind:
@@ -90,10 +90,17 @@ class HappyGifts:
                             output_text += p.text+' '
                         descriptions.append(output_text)
                     if inf.text == 'Характеристики':
-                        for p in p_select[inf_select.index(inf)+1].select('p'):
-                            split_text = p.text.split(': ', 1)
-                            if split_text[0] == 'Материал':
-                                materials.append(split_text[1])
+                        if len(p_select)==len(inf_select):
+                            for p in p_select[inf_select.index(inf)].select('p'):
+                                split_text = p.text.split(':', 1)
+                                if split_text[0] == 'Материал':
+                                    materials.append(split_text[1])
+                        else:
+                            for p in p_select[inf_select.index(inf)+1].select('p'):
+                                split_text = p.text.split(':', 1)
+                                if split_text[0] == 'Материал':
+                                    materials.append(split_text[1])
+
             print("Раздел: " + section)
             print("Название: " + name)
             print("Ссылка: " + page)
