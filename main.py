@@ -86,8 +86,11 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                 ws.write(target_row, 4, 'Цена')
                 ws.write(target_row, 5, 'Цвет')
                 ws.write(target_row, 6, 'Склад 1')
+                ws.write(target_row - 1, 6, '#Центральный')
                 ws.write(target_row, 7, 'Склад 2')
+                ws.write(target_row - 1, 7, '#Европа')
                 ws.write(target_row, 8, 'Склад 3')
+                ws.write(target_row - 1, 8, '#В пути')
                 ws.write(target_row, 9, 'Описание')
                 ws.write(target_row, 10, 'Материал')
                 target_row += 1
@@ -113,18 +116,26 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                         for i in range(0, len(item)):
                             ws.write(target_row + i, 5, item[i])
                 # доработать(неправильно склады)
+
                 elif key == 'stock_availability':
-                    for i in range(0, len(item)):
-                        for c in range(0, len(item[i])):
-                            ws.write(target_row + i, 6+c, item[i][c])
+                    if item:
+                        for i in range(0, len(item)):
+                            for name, number in item[i].items():
+                                if name == 'Центральный':
+                                    ws.write(target_row + i, 6, number)
+                                elif name == 'В пути,':
+                                    ws.write(target_row + i, 8, number)
+                                elif name == 'Европа':
+                                    ws.write(target_row + i, 7, number)
                 elif key == 'descriptions':
                     if item:
                         for i in range(0, len(item)):
-                            ws.write(target_row + i, 9, item[i])
+                            ws.write(target_row + i, 9, str(item[i]))
                 elif key == 'materials':
                     if item:
                         for i in range(0, len(item)):
                             ws.write(target_row + i, 10, item[i])
+            target_row += len(good[1]['colors'])
         wb.save('data.xls')
 
     def remove_href(self):

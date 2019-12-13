@@ -73,11 +73,27 @@ class HappyGifts:
                 colors[colors.index(color)] = color.select('div')[0]['data-title'].split(' (')[0]
             # доработать(неправильно склады)
             stock_availability = html.select('.avilability-numbers')
+            names_stock_availability = html.select('.avilability-tabs')
+            stock_out = []
+            for name_stock in names_stock_availability:
+                names_tabs = name_stock.select('.avilability-tabs-item')
+                for tab in names_tabs:
+                    names_tabs[names_tabs.index(tab)] = tab.select('span')[0].text
+                names_stock_availability[names_stock_availability.index(name_stock)] = names_tabs
             for stoks in stock_availability:
                 stoks_ind = stoks.select('.number-all')
                 for stock in stoks_ind:
                     stoks_ind[stoks_ind.index(stock)] = int(stock.text)
                 stock_availability[stock_availability.index(stoks)] = stoks_ind
+            for i in range(0, len(stock_availability)):
+                dict_stock = {}
+                for n in range(0, len(names_stock_availability[i])):
+                    if names_stock_availability[i][n] not in dict_stock:
+                        dict_stock[names_stock_availability[i][n]] = stock_availability[i][n]
+                    else:
+                        dict_stock[names_stock_availability[i][n]] += stock_availability[i][n]
+                stock_out.append(dict_stock)
+            print(stock_out)
             informations = html.select('.product-tab-blocks')
             descriptions = []
             materials = []
@@ -103,7 +119,7 @@ class HappyGifts:
                                     materials.append(split_text[1])
 
             return {'section': section, 'name': name, 'page': page, 'marks': marks,
-                    'prices': prices, 'colors': colors, 'stock_availability': stock_availability,
+                    'prices': prices, 'colors': colors, 'stock_availability': stock_out,
                     'descriptions': descriptions, 'materials': materials}
 
         except Exception as ex:
