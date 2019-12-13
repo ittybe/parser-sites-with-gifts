@@ -4,14 +4,18 @@ import main_window_v2
 from PyQt5 import QtWidgets
 import sys
 from parser_happygifts import HappyGifts
+from parser_gifts import Gifts
 import xlwt
 
-
+### Сделать так что бы виджеты были привязаны к combobox только один раз
 class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.comboBox.addItem('https://happygifts.ru/')
+        self.happygifts = HappyGifts()
+        self.gifts = Gifts()
+        self.comboBox.addItem('https://gifts.ru/')
         self.pushButton.clicked.connect(self.update_categorie)
         # self.treeWidget.itemClicked.connect(self.update_goods)
         self.listWidget.itemClicked.connect(self.remove_href)
@@ -23,8 +27,11 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
 
     def update_categorie(self):
         if self.comboBox.currentText() == 'https://happygifts.ru/':
-            self.categories = HappyGifts().parser_category()
+            self.categories = self.happygifts.parser_category()
+        elif self.comboBox.currentText() == 'https://gifts.ru/':
+            self.categories = self.gifts.parser_category()
         self.treeWidget.clear()
+        self.listWidget_2.clear()
         for categorie in self.categories:
             item = QtWidgets.QTreeWidgetItem(self.treeWidget)
             item.setText(0, categorie['title'])
@@ -39,16 +46,20 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         for item in self.treeWidget.selectedItems():
             for categorie in self.categories:
                 if categorie['title'] == item.text(0):
+                    goods = []
                     if self.comboBox.currentText() == 'https://happygifts.ru/':
-                        goods = HappyGifts().parser_goods(categorie['href'])
-                        for good in goods:
-                            self.goods.append(good)
-                            self.listWidget_2.addItem(good['title'] + ' Артикул:' + good['vendor code'])
+                        goods = self.happygifts.parser_goods(categorie['href'])
+                    elif self.comboBox.currentText() == 'https://gifts.ru/':
+                        goods = self.gifts.parser_goods(categorie['href'])
+                        print(goods)
+                    for good in goods:
+                        self.goods.append(good)
+                        self.listWidget_2.addItem(good['title'] + ' Артикул:' + good['vendor code'])
                 else:
                     if categorie['subcategories']:
                         for subcategorie in categorie['subcategories']:
                             if subcategorie['title'] == item.text(0):
-                                goods = HappyGifts().parser_goods(subcategorie['href'])
+                                goods = self.happygifts.parser_goods(subcategorie['href'])
                                 for good in goods:
                                     self.goods.append(good)
                                     self.listWidget_2.addItem(good['title'] + ' Артикул:' + good['vendor code'])
@@ -60,6 +71,8 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                 if item == select_item.text():
                     if self.comboBox.currentText() == 'https://happygifts.ru/':
                         self.listWidget.addItem('https://happygifts.ru/' + good['href'][1:])
+                    elif self.comboBox.currentText() == 'https://gifts.ru/':
+                        self.listWidget.addItem('https://gifts.ru/' + good['href'][1:])
 
     def parsing(self):
         goods = []
@@ -67,7 +80,7 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
             splited = self.listWidget.item(i).text().split('/')
             main_page = splited[0] + '//' + splited[2] + '/'
             if main_page == 'https://happygifts.ru/':
-                good = HappyGifts().parser_good(self.listWidget.item(i).text())
+                good = self.happygifts.parser_good(self.listWidget.item(i).text())
                 goods.append([main_page, good])
         wb = xlwt.Workbook()
         sheets_pages = []
