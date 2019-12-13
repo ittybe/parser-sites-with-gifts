@@ -51,15 +51,18 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                         goods = self.happygifts.parser_goods(categorie['href'])
                     elif self.comboBox.currentText() == 'https://gifts.ru/':
                         goods = self.gifts.parser_goods(categorie['href'])
-                        print(goods)
                     for good in goods:
                         self.goods.append(good)
                         self.listWidget_2.addItem(good['title'] + ' Артикул:' + good['vendor code'])
                 else:
                     if categorie['subcategories']:
                         for subcategorie in categorie['subcategories']:
+                            goods = []
                             if subcategorie['title'] == item.text(0):
-                                goods = self.happygifts.parser_goods(subcategorie['href'])
+                                if self.comboBox.currentText() == 'https://happygifts.ru/':
+                                    goods = self.happygifts.parser_goods(subcategorie['href'])
+                                elif self.comboBox.currentText() == 'https://gifts.ru/':
+                                    goods = self.gifts.parser_goods(subcategorie['href'])
                                 for good in goods:
                                     self.goods.append(good)
                                     self.listWidget_2.addItem(good['title'] + ' Артикул:' + good['vendor code'])
@@ -79,9 +82,12 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         for i in range(0, self.listWidget.count()):
             splited = self.listWidget.item(i).text().split('/')
             main_page = splited[0] + '//' + splited[2] + '/'
+            good = {}
             if main_page == 'https://happygifts.ru/':
                 good = self.happygifts.parser_good(self.listWidget.item(i).text())
-                goods.append([main_page, good])
+            elif main_page == 'https://gifts.ru/':
+                good = self.gifts.parser_good(self.listWidget.item(i).text())
+            goods.append([main_page, good])
         wb = xlwt.Workbook()
         sheets_pages = []
         sheets_object = []
