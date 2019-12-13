@@ -51,7 +51,7 @@ class HappyGifts:
             html = BS(r.content, 'html.parser')
             name_block = html.select('#name_block_set0')
             name = name_block[0].select('h1')[0].text
-            prices = html.select('.vu-price')
+            prices = html.select('.product-settings-container')[0].select('.vu-price')
             for price in prices:
                 price_out = price.text
                 price_out = price_out.replace('\n', '')
@@ -71,6 +71,7 @@ class HappyGifts:
             colors = html.select('.color-item')
             for color in colors:
                 colors[colors.index(color)] = color.select('div')[0]['data-title'].split(' (')[0]
+            # доработать(неправильно склады)
             stock_availability = html.select('.avilability-numbers')
             for stoks in stock_availability:
                 stoks_ind = stoks.select('.number-all')
@@ -101,15 +102,9 @@ class HappyGifts:
                                 if split_text[0] == 'Материал':
                                     materials.append(split_text[1])
 
-            print("Раздел: " + section)
-            print("Название: " + name)
-            print("Ссылка: " + page)
-            print("Отметки: " + str(marks))
-            print("Цены: " +str(prices))
-            print("Цвета: " + str(colors))
-            print("Наличие на складах : " + str(stock_availability))
-            print("Описание товаров : " + str(len(descriptions)))
-            print("Материал : " + str(materials))
+            return {'section': section, 'name': name, 'page': page, 'marks': marks,
+                    'prices': prices, 'colors': colors, 'stock_availability': stock_availability,
+                    'descriptions': descriptions, 'materials': materials}
 
         except Exception as ex:
             print("[EROR]*****************************************************")
