@@ -55,6 +55,8 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                         goods = self.happygifts.parser_goods(categorie['href'])
                     elif self.comboBox.currentText() == 'https://gifts.ru/':
                         goods = self.gifts.parser_goods(categorie['href'])
+                    elif self.comboBox.currentText() == 'https://www.oasiscatalog.com/':
+                        goods = self.oasiscatalog.parser_goods(categorie['href'])
                     for good in goods:
                         self.goods.append(good)
                         self.listWidget_2.addItem(good['title'] + ' Артикул:' + good['vendor code'])
@@ -67,6 +69,8 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                                     goods = self.happygifts.parser_goods(subcategorie['href'])
                                 elif self.comboBox.currentText() == 'https://gifts.ru/':
                                     goods = self.gifts.parser_goods(subcategorie['href'])
+                                elif self.comboBox.currentText() == 'https://www.oasiscatalog.com/':
+                                    goods = self.oasiscatalog.parser_goods(subcategorie['href'])
                                 for good in goods:
                                     self.goods.append(good)
                                     self.listWidget_2.addItem(good['title'] + ' Артикул:' + good['vendor code'])
