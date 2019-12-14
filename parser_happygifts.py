@@ -93,7 +93,6 @@ class HappyGifts:
                     else:
                         dict_stock[names_stock_availability[i][n]] += stock_availability[i][n]
                 stock_out.append(dict_stock)
-            print(stock_out)
             informations = html.select('.product-tab-blocks')
             descriptions = []
             materials = []

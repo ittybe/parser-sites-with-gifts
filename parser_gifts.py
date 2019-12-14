@@ -53,8 +53,6 @@ class Gifts:
             r = requests.get(page)
             html = BS(r.content, 'html.parser')
             main_good = self.pars_good_main(page)
-            #count_colors
-            print(main_good)
             main_good['price'] = [main_good['price']]
             main_good['color'] = [main_good['color']]
             main_good['stocks'] = [main_good['stocks']]
@@ -73,7 +71,7 @@ class Gifts:
                     main_good['material'].append(good_color['material'])
             print(main_good)
 
-            return {'section': main_good['section'], 'name': main_good['name'], 'page': main_good['page'],
+            return {'section': main_good['section'], 'name': main_good['name'], 'page': main_good['href'],
                     'marks': main_good['mark'], 'prices': main_good['price'], 'colors': main_good['color'],
                     'stock_availability': main_good['stocks'], 'descriptions': main_good['descript'],
                     'materials': main_good['material']}
