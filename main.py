@@ -84,6 +84,8 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                         self.listWidget.addItem('https://happygifts.ru/' + good['href'][1:])
                     elif self.comboBox.currentText() == 'https://gifts.ru/':
                         self.listWidget.addItem('https://gifts.ru/' + good['href'][1:])
+                    elif self.comboBox.currentText() == 'https://www.oasiscatalog.com/':
+                        self.listWidget.addItem('https://www.oasiscatalog.com/' + good['href'][1:])
 
     def parsing(self):
         goods = []
@@ -96,6 +98,10 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                 print(good)
             elif main_page == 'https://gifts.ru/':
                 good = self.gifts.parser_good(self.listWidget.item(i).text())
+                goods.append([main_page, good])
+                print(good)
+            elif main_page == 'https://www.oasiscatalog.com/':
+                good = self.oasiscatalog.parser_good(self.listWidget.item(i).text())
                 goods.append([main_page, good])
                 print(good)
         if goods:
@@ -160,6 +166,14 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                                                 ws.write(tr + i, 8, number)
                                             elif name == 'Европа':
                                                 ws.write(tr + i, 7, number)
+                            if good[0] == 'https://gifts.ru/':
+                                if item:
+                                    for i in range(0, len(item)):
+                                        ws.write(tr + i, 6, item[i])
+                            if good[0] == 'https://www.oasiscatalog.com/':
+                                if item:
+                                    for i in range(0, len(item)):
+                                        ws.write(tr + i, 6, item[i])
                         elif key == 'descriptions':
                             if item:
                                 for i in range(0, len(item)):

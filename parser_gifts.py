@@ -69,8 +69,6 @@ class Gifts:
                     main_good['stocks'].append(good_color['stocks'])
                     main_good['descript'].append(good_color['descript'])
                     main_good['material'].append(good_color['material'])
-            print(main_good)
-
             return {'section': main_good['section'], 'name': main_good['name'], 'page': main_good['href'],
                     'marks': main_good['mark'], 'prices': main_good['price'], 'colors': main_good['color'],
                     'stock_availability': main_good['stocks'], 'descriptions': main_good['descript'],
