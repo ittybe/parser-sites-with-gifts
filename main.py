@@ -5,6 +5,7 @@ from PyQt5 import QtWidgets
 import sys
 from parser_happygifts import HappyGifts
 from parser_gifts import Gifts
+from parser_oasiscatalog import Oasiscatalog
 import xlwt
 
 ### Сделать так что бы виджеты были привязаны к combobox только один раз
@@ -13,11 +14,12 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.comboBox.addItem('https://happygifts.ru/')
+        self.comboBox.addItem('https://gifts.ru/')
+        self.comboBox.addItem('https://www.oasiscatalog.com/')
         self.happygifts = HappyGifts()
         self.gifts = Gifts()
-        self.comboBox.addItem('https://gifts.ru/')
+        self.oasiscatalog = Oasiscatalog()
         self.pushButton.clicked.connect(self.update_categorie)
-        # self.treeWidget.itemClicked.connect(self.update_goods)
         self.listWidget.itemClicked.connect(self.remove_href)
         self.pushButton_5.clicked.connect(self.update_goods)
         self.pushButton_2.clicked.connect(self.add_in_outlist)
@@ -30,6 +32,8 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
             self.categories = self.happygifts.parser_category()
         elif self.comboBox.currentText() == 'https://gifts.ru/':
             self.categories = self.gifts.parser_category()
+        elif self.comboBox.currentText() == 'https://www.oasiscatalog.com/':
+            self.categories = self.oasiscatalog.parser_category()
         self.treeWidget.clear()
         self.listWidget_2.clear()
         for categorie in self.categories:
