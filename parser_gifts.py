@@ -28,9 +28,8 @@ class Gifts:
         html = BS(r.content, 'html.parser')
         goods = []
         navigation = html.select('.paginator')
-        max_page = navigation[0].select('li')
-        if max_page:
-            max_page = int(max_page[-1].text)
+        if navigation:
+            max_page = int(navigation[0].select('li')[-1].text)
         else:
             max_page = 1
         for i in range(1, max_page+1):
@@ -53,92 +52,66 @@ class Gifts:
         try:
             r = requests.get(page)
             html = BS(r.content, 'html.parser')
-            name_block = html.select('.itm-hdr')[0].select('h1')[0].text
-            name = name_block.split(', ')[0]
-            price = float(html.select('.j_price')[0].select('span')[0].text.replace(',', '.'))
-            section = html.select('.itm-hdr')[0].select('li')[-3].select('span')[0].text
-            mark = html.select('.btn.itm-lbl.color--danger')
-            color = name_block.split(', ')[1]
-            print(name)
-            print(price)
-            print(section)
-            print(mark)
-            print(color)
-            stocks = html.select('.itm-ord-tbl')[0].select('')
+            main_good = self.pars_good_main(page)
+            #count_colors
+            print(main_good)
+            main_good['price'] = [main_good['price']]
+            main_good['color'] = [main_good['color']]
+            main_good['stocks'] = [main_good['stocks']]
+            main_good['descript'] = [main_good['descript']]
+            main_good['material'] = [main_good['material']]
+            item_other_colors_box = html.select('.itm-clrs')
+            if item_other_colors_box:
+                other_colors = item_other_colors_box[0].select('a')
+                for item in other_colors:
+                    href_color = item['href']
+                    good_color = self.pars_good_main(self.main_page+href_color[1:])
+                    main_good['price'].append(good_color['price'])
+                    main_good['color'].append(good_color['color'])
+                    main_good['stocks'].append(good_color['stocks'])
+                    main_good['descript'].append(good_color['descript'])
+                    main_good['material'].append(good_color['material'])
+            print(main_good)
 
-            # prices = html.select('.product-settings-container')[0].select('.vu-price')
-            # for price in prices:
-            #     price_out = price.text
-            #     price_out = price_out.replace('\n', '')
-            #     price_out = price_out.strip()
-            #     price_out = price_out.replace(' ', '')
-            #     price_out = price_out.replace('Р', '')
-            #     price_out = float(price_out)
-            #     prices[prices.index(price)] = price_out
-            # section = html.select('.breadcrumb-item.link-parent')[0].select('.breadcrumb-title')[0]['title']
-            # marks = html.select('.icons-container')[0].select('span')
-            # if marks:
-            #     for mark in marks:
-            #         if mark['class'][0] == "md_DownToZero":
-            #             marks[marks.index(mark)] = mark['title']
-            #         else:
-            #             marks[marks.index(mark)] = mark.text
-            # colors = html.select('.color-item')
-            # for color in colors:
-            #     colors[colors.index(color)] = color.select('div')[0]['data-title'].split(' (')[0]
-            # # доработать(неправильно склады)
-            # stock_availability = html.select('.avilability-numbers')
-            # names_stock_availability = html.select('.avilability-tabs')
-            # stock_out = []
-            # for name_stock in names_stock_availability:
-            #     names_tabs = name_stock.select('.avilability-tabs-item')
-            #     for tab in names_tabs:
-            #         names_tabs[names_tabs.index(tab)] = tab.select('span')[0].text
-            #     names_stock_availability[names_stock_availability.index(name_stock)] = names_tabs
-            # for stoks in stock_availability:
-            #     stoks_ind = stoks.select('.number-all')
-            #     for stock in stoks_ind:
-            #         stoks_ind[stoks_ind.index(stock)] = int(stock.text)
-            #     stock_availability[stock_availability.index(stoks)] = stoks_ind
-            # for i in range(0, len(stock_availability)):
-            #     dict_stock = {}
-            #     for n in range(0, len(names_stock_availability[i])):
-            #         if names_stock_availability[i][n] not in dict_stock:
-            #             dict_stock[names_stock_availability[i][n]] = stock_availability[i][n]
-            #         else:
-            #             dict_stock[names_stock_availability[i][n]] += stock_availability[i][n]
-            #     stock_out.append(dict_stock)
-            # print(stock_out)
-            # informations = html.select('.product-tab-blocks')
-            # descriptions = []
-            # materials = []
-            # for information in informations:
-            #     inf_select = information.select('h3')
-            #     p_select = information.select('div')
-            #     for inf in inf_select:
-            #         if inf.text == 'Описание товара':
-            #             output_text = ''
-            #             for p in p_select[inf_select.index(inf)].select('p'):
-            #                 output_text += p.text+' '
-            #             descriptions.append(output_text)
-            #         if inf.text == 'Характеристики':
-            #             if len(p_select)==len(inf_select):
-            #                 for p in p_select[inf_select.index(inf)].select('p'):
-            #                     split_text = p.text.split(':', 1)
-            #                     if split_text[0] == 'Материал':
-            #                         materials.append(split_text[1])
-            #             else:
-            #                 for p in p_select[inf_select.index(inf)+1].select('p'):
-            #                     split_text = p.text.split(':', 1)
-            #                     if split_text[0] == 'Материал':
-            #                         materials.append(split_text[1])
-            #
-            # return {'section': section, 'name': name, 'page': page, 'marks': marks,
-            #         'prices': prices, 'colors': colors, 'stock_availability': stock_out,
-            #         'descriptions': descriptions, 'materials': materials}
+            return {'section': main_good['section'], 'name': main_good['name'], 'page': main_good['page'],
+                    'marks': main_good['mark'], 'prices': main_good['price'], 'colors': main_good['color'],
+                    'stock_availability': main_good['stocks'], 'descriptions': main_good['descript'],
+                    'materials': main_good['material']}
 
         except Exception as ex:
             print("[EROR]*****************************************************")
             print(ex)
             print("[EROR]*****************************************************")
 
+    @staticmethod
+    def pars_good_main(page):
+        r = requests.get(page)
+        html = BS(r.content, 'html.parser')
+        name_block = html.select('.itm-hdr')[0].select('h1')[0].text
+        if len(name_block.split(', ')) == 1:
+            name = name_block.split(' ')[0]
+        else:
+            name = name_block.split(', ')[0]
+        price = float(html.select('.j_price')[0].select('span')[0].text.replace(',', '.').replace(' ', ''))
+        section = html.select('.itm-hdr')[0].select('li')[-3].select('span')[0].text
+        mark = html.select('.btn.itm-lbl.color--danger')
+        if mark:
+            mark = [mark[0].text]
+        if len(name_block.split(', ')) == 1:
+            color = name_block.split(' ')[-1]
+        else:
+            color = name_block.split(', ')[-1]
+        href = page
+        stocks = sum([int(stock.select('.amount')[0].text)
+                      for stock in html.select('.itm-ord-tbl')[0].select('.itm-ord-wh')])
+        material = [opt.text.replace('Материал', '') for opt in html.select('.text_block')[0].select('li')
+                    if opt.select('.itm-opts-label') if opt.select('.itm-opts-label')[0].text == 'Материал']
+        if material:
+            material = material[0]
+        descript = html.select('#marketDescr')
+        if descript:
+            descript = descript[0].text
+        else:
+            descript = ''
+        return {'name': name, 'price': price, 'section': section, 'mark': mark, 'color': color, 'href': href,
+                'stocks': stocks, 'material': material, 'descript': descript}
