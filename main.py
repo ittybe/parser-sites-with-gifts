@@ -221,20 +221,26 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
 
 
     def open_dialog(self):
-        dialog = Dialog()
-        dialog.exec_()
-        if dialog.accepted:
-            get_time = dialog.time.split(':')
-            self.timedata = [self.days_weekly[dialog.day], datetime.time(hour=int(get_time[0]), minute=int(get_time[1])), int(dialog.count_pars)]
-            if self.timedata[2]>0:
-                self.timer.timedata = self.timedata
-                self.timer.start()
-                self.pushButton_4.setText('Остановиь парсинг')
-                self.pushButton_4.clicked.connect(lambda : self.stop_parser())
+        if self.pushButton_4.isChecked():
+            dialog = Dialog()
+            dialog.exec_()
+            if dialog.accepted:
+                get_time = dialog.time.split(':')
+                self.timedata = [self.days_weekly[dialog.day], datetime.time(hour=int(get_time[0]), minute=int(get_time[1])), int(dialog.count_pars)]
+                if self.timedata[2]>0:
+                    self.timer.timedata = self.timedata
+                    self.timer.start()
+                    self.pushButton_4.setText('Остановиь парсинг')
+                else:
+                    self.pushButton_4.setChecked(False)
+                    self.pushButton_4.setText('Парсинг')
+
             else:
                 self.pushButton_4.setChecked(False)
+                self.pushButton_4.setText('Парсинг')
         else:
-            self.pushButton_4.setChecked(False)
+            self.pushButton_4.setText('Парсинг')
+            self.timer.timedata[2] = 0
 
     def parsing_time(self):
         goods = []
@@ -255,8 +261,7 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                 print(good)
             self.timer.timedata[2] -= 1
 
-    def stop_parser(self):
-        self.timer.timedata[2] = 0
+
 
 class Dialog(QtWidgets.QDialog, dialog_window.Ui_Dialog):
     def __init__(self):
@@ -311,6 +316,7 @@ class TimerRun(QThread):
                     self.timedata[2] -= 1
             else:
                 self.mainWindow.pushButton_4.setChecked(False)
+                self.mainWindow.pushButton_4.setText('Парсинг')
                 break
 
 
