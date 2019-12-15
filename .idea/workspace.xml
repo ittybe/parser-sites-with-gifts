@@ -4,7 +4,10 @@
     <list default="true" id="66b62883-1e50-49ad-b074-03edd4742cc5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parser_oasiscatalog.py" beforeDir="false" afterPath="$PROJECT_DIR$/parser_oasiscatalog.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.spec" beforeDir="false" afterPath="$PROJECT_DIR$/main.spec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_window_v2.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_window_v2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_window_v2.ui" beforeDir="false" afterPath="$PROJECT_DIR$/main_window_v2.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,7 +20,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_window.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="548">
+            <state relative-caret-position="1989">
               <caret line="117" column="47" selection-start-line="117" selection-start-column="47" selection-end-line="117" selection-end-column="47" />
             </state>
           </provider>
@@ -26,8 +29,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_window_v2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1717">
-              <caret line="101" selection-start-line="101" selection-end-line="101" />
+            <state relative-caret-position="-1254">
+              <caret line="7" selection-start-line="7" selection-end-line="7" />
             </state>
           </provider>
         </entry>
@@ -35,23 +38,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parser_happygifts.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="38" column="12" lean-forward="true" selection-start-line="38" selection-start-column="12" selection-end-line="43" selection-end-column="114" />
-              <folding>
-                <element signature="e#0#35#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="17">
+              <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="15" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parser_oasiscatalog.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="40" column="21" lean-forward="true" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
-              <folding>
-                <element signature="e#0#35#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="17">
+              <caret line="1" column="5" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -59,8 +56,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parser_gifts.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="47" column="20" lean-forward="true" selection-start-line="24" selection-end-line="47" selection-end-column="20" />
+            <state relative-caret-position="1173">
+              <caret line="70" column="72" selection-start-line="70" selection-start-column="72" selection-end-line="70" selection-end-column="72" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -71,17 +68,38 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/setup.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+            <state relative-caret-position="51">
+              <caret line="3" column="18" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/main.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="262">
+              <caret line="235" column="13" lean-forward="true" selection-start-line="235" selection-start-column="13" selection-end-line="235" selection-end-column="13" />
+              <folding>
+                <element signature="e#64#85#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main.py">
+        <entry file="file://$PROJECT_DIR$/dialog.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="74" column="59" lean-forward="true" selection-start-line="74" selection-start-column="59" selection-end-line="74" selection-end-column="59" />
+            <state relative-caret-position="548">
+              <caret line="61" column="42" selection-start-line="61" selection-start-column="42" selection-end-line="61" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dialog_window.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="350">
+              <caret line="57" column="39" selection-start-line="57" selection-start-column="39" selection-end-line="57" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -101,8 +119,8 @@
       <find>parser_good(</find>
       <find>parser_good</find>
       <find>HappyGifts()</find>
-      <find>target_row</find>
       <find>.lstrip().rstrip()</find>
+      <find>target_row</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -111,13 +129,13 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/main_window.py" />
         <option value="$PROJECT_DIR$/main_window_v2.py" />
-        <option value="$PROJECT_DIR$/parser_gifts.py" />
         <option value="$PROJECT_DIR$/parser_happygifts.py" />
-        <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/parser_gifts.py" />
         <option value="$PROJECT_DIR$/parser_oasiscatalog.py" />
+        <option value="$PROJECT_DIR$/setup.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
@@ -162,7 +180,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../parser_steamby" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
@@ -279,7 +297,21 @@
       <option name="project" value="LOCAL" />
       <updated>1576327410547</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="парсер каталога oasiscatalog">
+      <created>1576329197331</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1576329197331</updated>
+    </task>
+    <task id="LOCAL-00011" summary="парсер товаров oasiscatalog">
+      <created>1576352926082</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1576352926082</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TodoView" selected-index="1">
@@ -300,15 +332,15 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49355876" visible="true" weight="0.29213482" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49677938" weight="0.3988764" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.48711756" visible="true" weight="0.29213482" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49597424" weight="0.3988764" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.4983897" weight="0.32921347" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49758455" weight="0.32921347" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49471116" weight="0.3281759" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50644124" side_tool="true" visible="true" weight="0.29213482" />
-      <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49677938" weight="0.32921347" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.4879227" weight="0.3280899" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5128825" side_tool="true" visible="true" weight="0.29213482" />
+      <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.4983897" weight="0.32921347" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -324,63 +356,76 @@
     <MESSAGE value="парсер gifts" />
     <MESSAGE value="запись в excel gifts" />
     <MESSAGE value="парсер категорий oasiscatalog" />
-    <option name="LAST_COMMIT_MESSAGE" value="парсер категорий oasiscatalog" />
+    <MESSAGE value="парсер каталога oasiscatalog" />
+    <MESSAGE value="парсер товаров oasiscatalog" />
+    <option name="LAST_COMMIT_MESSAGE" value="парсер товаров oasiscatalog" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="74" column="59" lean-forward="true" selection-start-line="74" selection-start-column="59" selection-end-line="74" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parser_gifts.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="47" column="20" lean-forward="true" selection-start-line="24" selection-end-line="47" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main_window_v2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1717">
-          <caret line="101" selection-start-line="101" selection-end-line="101" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main_window.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="548">
+        <state relative-caret-position="1989">
           <caret line="117" column="47" selection-start-line="117" selection-start-column="47" selection-end-line="117" selection-end-column="47" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/parser_happygifts.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="38" column="12" lean-forward="true" selection-start-line="38" selection-start-column="12" selection-end-line="43" selection-end-column="114" />
+        <state relative-caret-position="17">
+          <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parser_gifts.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1173">
+          <caret line="70" column="72" selection-start-line="70" selection-start-column="72" selection-end-line="70" selection-end-column="72" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="18" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/parser_oasiscatalog.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="40" column="21" lean-forward="true" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
+        <state relative-caret-position="17">
+          <caret line="1" column="5" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_window_v2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1254">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dialog_window.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="57" column="39" selection-start-line="57" selection-start-column="39" selection-end-line="57" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dialog.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="548">
+          <caret line="61" column="42" selection-start-line="61" selection-start-column="42" selection-end-line="61" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="235" column="13" lean-forward="true" selection-start-line="235" selection-start-column="13" selection-end-line="235" selection-end-column="13" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#64#85#0" expanded="true" />
           </folding>
         </state>
       </provider>

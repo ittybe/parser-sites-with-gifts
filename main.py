@@ -1,15 +1,29 @@
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # import main_window
 import main_window_v2
+import dialog_window
 from PyQt5 import QtWidgets
 import sys
 from parser_happygifts import HappyGifts
 from parser_gifts import Gifts
 from parser_oasiscatalog import Oasiscatalog
 import xlwt
-
+import schedule
+import time
+from PyQt5.QtCore import QThread
+import datetime
 ### Сделать так что бы виджеты были привязаны к combobox только один раз
 class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
+    days_weekly ={
+        'Понедельник':  0,
+        'Вторник': 1,
+        'Среда': 2,
+        'Четверг':3,
+        'Пятница': 4,
+        'Суббота': 5,
+        'Воскресенье': 6,
+    }
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -21,11 +35,16 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         self.oasiscatalog = Oasiscatalog()
         self.pushButton.clicked.connect(self.update_categorie)
         self.listWidget.itemClicked.connect(self.remove_href)
+        self.listWidget_3.itemClicked.connect(self.remove_href)
         self.pushButton_5.clicked.connect(self.update_goods)
         self.pushButton_2.clicked.connect(self.add_in_outlist)
         self.pushButton_3.clicked.connect(self.parsing)
+        self.pushButton_6.clicked.connect(self.add_page)
+        self.pushButton_4.clicked.connect(self.open_dialog)
         self.categories = []
         self.goods = []
+        self.timedata = []
+        self.timer = TimerRun(self)
 
     def update_categorie(self):
         if self.comboBox.currentText() == 'https://happygifts.ru/':
@@ -82,10 +101,14 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                 if item == select_item.text():
                     if self.comboBox.currentText() == 'https://happygifts.ru/':
                         self.listWidget.addItem('https://happygifts.ru/' + good['href'][1:])
+                        self.listWidget_3.addItem('https://happygifts.ru/' + good['href'][1:])
                     elif self.comboBox.currentText() == 'https://gifts.ru/':
                         self.listWidget.addItem('https://gifts.ru/' + good['href'][1:])
+                        self.listWidget_3.addItem('https://gifts.ru/' + good['href'][1:])
                     elif self.comboBox.currentText() == 'https://www.oasiscatalog.com/':
                         self.listWidget.addItem('https://www.oasiscatalog.com/' + good['href'][1:])
+                        self.listWidget_3.addItem('https://gifts.ru/' + good['href'][1:])
+
 
     def parsing(self):
         goods = []
@@ -116,7 +139,6 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                         sheets_object.append(wb.add_sheet(good[0].split('/')[-2]))
                     ws = sheets_object[sheets_pages.index(good[0])]
                     tr = target_row[sheets_pages.index(good[0])]
-                    print(tr)
                     if tr == 1:
                         ws.write(tr, 0, 'Раздел')
                         ws.write(tr, 1, 'Наименование')
@@ -187,10 +209,109 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
             except Exception as ex:
                 print(ex)
 
+    def add_page(self):
+        item = self.lineEdit.text()
+        self.listWidget.addItem(item)
+
     def remove_href(self):
         for item in self.listWidget.selectedItems():
             self.listWidget.takeItem(self.listWidget.row(item))
+        for item in self.listWidget_3.selectedItems():
+            self.listWidget_3.takeItem(self.listWidget_3.row(item))
 
+
+    def open_dialog(self):
+        dialog = Dialog()
+        dialog.exec_()
+        if dialog.accepted:
+            get_time = dialog.time.split(':')
+            self.timedata = [self.days_weekly[dialog.day], datetime.time(hour=int(get_time[0]), minute=int(get_time[1])), int(dialog.count_pars)]
+            if self.timedata[2]>0:
+                self.timer.timedata = self.timedata
+                self.timer.start()
+                self.pushButton_4.setText('Остановиь парсинг')
+                self.pushButton_4.clicked.connect(lambda : self.stop_parser())
+            else:
+                self.pushButton_4.setChecked(False)
+        else:
+            self.pushButton_4.setChecked(False)
+
+    def parsing_time(self):
+        goods = []
+        for i in range(0, self.listWidget.count()):
+            splited = self.listWidget.item(i).text().split('/')
+            main_page = splited[0] + '//' + splited[2] + '/'
+            if main_page == 'https://happygifts.ru/':
+                good = self.happygifts.parser_good(self.listWidget.item(i).text())
+                goods.append([main_page, good])
+                print(good)
+            elif main_page == 'https://gifts.ru/':
+                good = self.gifts.parser_good(self.listWidget.item(i).text())
+                goods.append([main_page, good])
+                print(good)
+            elif main_page == 'https://www.oasiscatalog.com/':
+                good = self.oasiscatalog.parser_good(self.listWidget.item(i).text())
+                goods.append([main_page, good])
+                print(good)
+            self.timer.timedata[2] -= 1
+
+    def stop_parser(self):
+        self.timer.timedata[2] = 0
+
+class Dialog(QtWidgets.QDialog, dialog_window.Ui_Dialog):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.cancel)
+        self.comboBox.addItem('Понедельник')
+        self.comboBox.addItem('Вторник')
+        self.comboBox.addItem('Среда')
+        self.comboBox.addItem('Четверг')
+        self.comboBox.addItem('Пятница')
+        self.comboBox.addItem('Суббота')
+        self.comboBox.addItem('Воскресенье')
+        self.accepted = False
+        self.day = None
+        self.time = None
+        self.count_pars = None
+
+    def accept(self):
+        self.day = self.comboBox.currentText()
+        self.time = self.timeEdit.text()
+        self.count_pars = self.spinBox_2.text()
+        self.accepted = True
+        self.close()
+
+    def cancel(self):
+        self.accepted = False
+        self.close()
+
+
+
+
+class TimerRun(QThread):
+    def __init__(self, mainWindow):
+        super().__init__()
+        self.value = 0
+        self.mainWindow = mainWindow
+        self.timedata = []
+
+    def run(self):
+        while True:
+            if self.timedata[2]>0:
+                time.sleep(60)
+                now = datetime.datetime.now()
+                if now.weekday() == self.timedata[0]\
+                        and now.time().minute == self.timedata[1].minute \
+                        and now.time().hour == self.timedata[1].hour:
+                    print('[INFO] PARSING...')
+                    self.mainWindow.parsing_time()
+                    print('[INFO] complete')
+                    self.timedata[2] -= 1
+            else:
+                self.mainWindow.pushButton_4.setChecked(False)
+                break
 
 
 
