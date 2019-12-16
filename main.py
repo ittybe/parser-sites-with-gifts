@@ -9,17 +9,18 @@ from parser_happygifts import HappyGifts
 from parser_gifts import Gifts
 from parser_oasiscatalog import Oasiscatalog
 import xlwt
-import schedule
 import time
 from PyQt5.QtCore import QThread
 import datetime
+import os
+import json
 ### Сделать так что бы виджеты были привязаны к combobox только один раз
 class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
-    days_weekly ={
+    days_weekly = {
         'Понедельник':  0,
         'Вторник': 1,
         'Среда': 2,
-        'Четверг':3,
+        'Четверг': 3,
         'Пятница': 4,
         'Суббота': 5,
         'Воскресенье': 6,
@@ -45,6 +46,9 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         self.goods = []
         self.timedata = []
         self.timer = TimerRun(self)
+        self.open_json()
+
+
 
     def update_categorie(self):
         if self.comboBox.currentText() == 'https://happygifts.ru/':
@@ -219,7 +223,6 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         for item in self.listWidget_3.selectedItems():
             self.listWidget_3.takeItem(self.listWidget_3.row(item))
 
-
     def open_dialog(self):
         if self.pushButton_4.isChecked():
             dialog = Dialog()
@@ -231,10 +234,10 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                     self.timer.timedata = self.timedata
                     self.timer.start()
                     self.pushButton_4.setText('Остановиь парсинг')
+                    self.save_json()
                 else:
                     self.pushButton_4.setChecked(False)
                     self.pushButton_4.setText('Парсинг')
-
             else:
                 self.pushButton_4.setChecked(False)
                 self.pushButton_4.setText('Парсинг')
@@ -244,22 +247,52 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
 
     def parsing_time(self):
         goods = []
-        for i in range(0, self.listWidget.count()):
-            splited = self.listWidget.item(i).text().split('/')
+        for i in range(0, self.listWidget_3.count()):
+            splited = self.listWidget_3.item(i).text().split('/')
             main_page = splited[0] + '//' + splited[2] + '/'
             if main_page == 'https://happygifts.ru/':
-                good = self.happygifts.parser_good(self.listWidget.item(i).text())
+                good = self.happygifts.parser_good(self.listWidget_3.item(i).text())
                 goods.append([main_page, good])
                 print(good)
             elif main_page == 'https://gifts.ru/':
-                good = self.gifts.parser_good(self.listWidget.item(i).text())
+                good = self.gifts.parser_good(self.listWidget_3.item(i).text())
                 goods.append([main_page, good])
                 print(good)
             elif main_page == 'https://www.oasiscatalog.com/':
-                good = self.oasiscatalog.parser_good(self.listWidget.item(i).text())
+                good = self.oasiscatalog.parser_good(self.listWidget_3.item(i).text())
                 goods.append([main_page, good])
                 print(good)
-            self.timer.timedata[2] -= 1
+
+
+    def save_json(self):
+        try:
+            timedata = [self.timer.timedata[0], str(self.timer.timedata[1]), self.timer.timedata[2]]
+            to_json = {'timedata': timedata,
+                    'pages': [self.listWidget_3.item(i).text() for i in range(0, self.listWidget_3.count())]}
+            with open('timedata.json', 'w') as f:
+                json.dump(to_json, f)
+        except Exception as ex:
+            print(ex)
+
+    def open_json(self):
+        if os.path.exists('timedata.json'):
+            with open('timedata.json') as f:
+                timedata_file = json.load(f)
+                if timedata_file['timedata'][2]>0:
+                    print('ok')
+                    for page in timedata_file['pages']:
+                        self.listWidget_3.addItem(page)
+                    get_time = timedata_file['timedata'][1].split(':')
+                    self.timer.timedata = [timedata_file['timedata'][0],
+                                            datetime.time(hour=int(get_time[0]), minute=int(get_time[1])),
+                                            timedata_file['timedata'][2]]
+                    print(self.timer.timedata)
+                    self.timer.start()
+                    self.pushButton_4.setText('Остановиь парсинг')
+                    self.pushButton_4.setChecked(True)
+
+
+
 
 
 
@@ -293,32 +326,33 @@ class Dialog(QtWidgets.QDialog, dialog_window.Ui_Dialog):
         self.close()
 
 
-
-
 class TimerRun(QThread):
     def __init__(self, mainWindow):
         super().__init__()
         self.value = 0
         self.mainWindow = mainWindow
         self.timedata = []
+        self.parsed = []
 
     def run(self):
         while True:
             if self.timedata[2]>0:
-                time.sleep(60)
+                time.sleep(1)
                 now = datetime.datetime.now()
                 if now.weekday() == self.timedata[0]\
                         and now.time().minute == self.timedata[1].minute \
                         and now.time().hour == self.timedata[1].hour:
-                    print('[INFO] PARSING...')
-                    self.mainWindow.parsing_time()
-                    print('[INFO] complete')
-                    self.timedata[2] -= 1
+                    if [now.day, now.time().hour, now.time().minute] not in self.parsed:
+                        print('[INFO] PARSING...')
+                        self.mainWindow.parsing_time()
+                        self.parsed.append([now.day, now.time().hour, now.time().minute])
+                        print('[INFO] complete')
+                        self.timedata[2] -= 1
+                        self.mainWindow.save_json()
             else:
                 self.mainWindow.pushButton_4.setChecked(False)
                 self.mainWindow.pushButton_4.setText('Парсинг')
                 break
-
 
 
 def main():
