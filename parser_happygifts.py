@@ -41,7 +41,7 @@ class HappyGifts:
                 if text_container:
                     title = text_container[0].select('.product-title')
                     product_number = text_container[0].select('.product-number')[0]['title']
-                    goods.append({'title': title[0].text, 'href': title[0]['href'],'vendor code': product_number})
+                    goods.append({'title': title[0].text, 'href': title[0]['href'], 'vendor code': product_number})
         return goods
 
 

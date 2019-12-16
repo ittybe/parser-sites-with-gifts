@@ -14,6 +14,8 @@ from PyQt5.QtCore import QThread
 import datetime
 import os
 import json
+import xlrd
+from xlutils.copy import copy
 ### Сделать так что бы виджеты были привязаны к combobox только один раз
 class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
     days_weekly = {
@@ -39,7 +41,7 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         self.listWidget_3.itemClicked.connect(self.remove_href)
         self.pushButton_5.clicked.connect(self.update_goods)
         self.pushButton_2.clicked.connect(self.add_in_outlist)
-        self.pushButton_3.clicked.connect(self.parsing)
+        self.pushButton_3.clicked.connect(lambda :self.parsing(self.get_goods()))
         self.pushButton_6.clicked.connect(self.add_page)
         self.pushButton_4.clicked.connect(self.open_dialog)
         self.categories = []
@@ -113,8 +115,7 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                         self.listWidget.addItem('https://www.oasiscatalog.com/' + good['href'][1:])
                         self.listWidget_3.addItem('https://gifts.ru/' + good['href'][1:])
 
-
-    def parsing(self):
+    def get_goods(self):
         goods = []
         for i in range(0, self.listWidget.count()):
             splited = self.listWidget.item(i).text().split('/')
@@ -131,6 +132,9 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                 good = self.oasiscatalog.parser_good(self.listWidget.item(i).text())
                 goods.append([main_page, good])
                 print(good)
+        return goods
+
+    def parsing(self, goods):
         if goods:
             wb = xlwt.Workbook()
             sheets_pages = []
@@ -229,7 +233,11 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
             dialog.exec_()
             if dialog.accepted:
                 get_time = dialog.time.split(':')
-                self.timedata = [self.days_weekly[dialog.day], datetime.time(hour=int(get_time[0]), minute=int(get_time[1])), int(dialog.count_pars)]
+                self.timedata = [self.days_weekly[dialog.day],
+                                 datetime.time(hour=int(get_time[0]),
+                                               minute=int(get_time[1])),
+                                 int(dialog.count_pars),
+                                 0]
                 if self.timedata[2]>0:
                     self.timer.timedata = self.timedata
                     self.timer.start()
@@ -240,6 +248,7 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                     self.pushButton_4.setText('Парсинг')
             else:
                 self.pushButton_4.setChecked(False)
+                self.timer.timedata[2] = 0
                 self.pushButton_4.setText('Парсинг')
         else:
             self.pushButton_4.setText('Парсинг')
@@ -262,11 +271,66 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                 good = self.oasiscatalog.parser_good(self.listWidget_3.item(i).text())
                 goods.append([main_page, good])
                 print(good)
+        if goods:
+            count_pars = self.timer.timedata[3]
+            if count_pars == 0:
+                wb = xlwt.Workbook()
+                ws = wb.add_sheet('parsing', cell_overwrite_ok = True)
+                ws.write(count_pars, 0, 'Наименование')
+                ws.write(count_pars, 1, 'Ссылка')
+                ws.write(count_pars, 2, 'Цвет')
+                tr = 1
+                for good in goods:
+                    for key, item in good[1].items():
+                        if key == 'name':
+                            ws.write(tr, 0, str(item))
+                        elif key == 'page':
+                            ws.write(tr, 1, str(item))
+                        elif key == 'colors':
+                            if item:
+                                for i in range(0, len(item)):
+                                    ws.write(tr + i, 2, item[i])
+                    tr += len(good[1]['colors'])
+                    wb.save('data_timing.xls')
+            rb = xlrd.open_workbook('data_timing.xls', on_demand=True, formatting_info=True)
+            wb = copy(rb)
+            rb.release_resources()
+            ws = wb.get_sheet(0)
+            tr = 1
+            now = datetime.datetime.now()
+            ws.write(0, count_pars+3,str(now))
+            for good in goods:
+                for key, item in good[1].items():
+                    if key == 'stock_availability':
+                        if good[0] == 'https://happygifts.ru/':
+                            if item:
+                                for i in range(0, len(item)):
+                                    all_stocks = sum([number for name, number in item[i].items()])
+                                    ws.write(tr + i, count_pars + 3, all_stocks)
+                        if good[0] == 'https://gifts.ru/':
+                            if item:
+                                for i in range(0, len(item)):
+                                    ws.write(tr + i, count_pars+3, item[i])
+                        if good[0] == 'https://www.oasiscatalog.com/':
+                            if item:
+                                for i in range(0, len(item)):
+                                    ws.write(tr + i, count_pars+3, item[i])
+                tr += len(good[1]['colors'])
+            wb.save('data_timing.xls')
+
+
+
+
+
+
 
 
     def save_json(self):
         try:
-            timedata = [self.timer.timedata[0], str(self.timer.timedata[1]), self.timer.timedata[2]]
+            timedata = [self.timer.timedata[0],
+                        str(self.timer.timedata[1]),
+                        self.timer.timedata[2],
+                        self.timer.timedata[3]]
             to_json = {'timedata': timedata,
                     'pages': [self.listWidget_3.item(i).text() for i in range(0, self.listWidget_3.count())]}
             with open('timedata.json', 'w') as f:
@@ -285,8 +349,8 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                     get_time = timedata_file['timedata'][1].split(':')
                     self.timer.timedata = [timedata_file['timedata'][0],
                                             datetime.time(hour=int(get_time[0]), minute=int(get_time[1])),
-                                            timedata_file['timedata'][2]]
-                    print(self.timer.timedata)
+                                            timedata_file['timedata'][2],
+                                           timedata_file['timedata'][3]]
                     self.timer.start()
                     self.pushButton_4.setText('Остановиь парсинг')
                     self.pushButton_4.setChecked(True)
@@ -348,10 +412,12 @@ class TimerRun(QThread):
                         self.parsed.append([now.day, now.time().hour, now.time().minute])
                         print('[INFO] complete')
                         self.timedata[2] -= 1
+                        self.timedata[3] += 1
                         self.mainWindow.save_json()
             else:
                 self.mainWindow.pushButton_4.setChecked(False)
                 self.mainWindow.pushButton_4.setText('Парсинг')
+                self.mainWindow.save_json()
                 break
 
 
