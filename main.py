@@ -16,7 +16,9 @@ import os
 import json
 import xlrd
 from xlutils.copy import copy
+import pytz
 ### Сделать так что бы виджеты были привязаны к combobox только один раз
+print(pytz.all_timezones)
 class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
     days_weekly = {
         'Понедельник':  0,
@@ -46,6 +48,8 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         self.pushButton_7.clicked.connect(self.add_page_intimelist)
         self.pushButton_4.clicked.connect(self.open_dialog)
         self.pushButton_8.clicked.connect(self.add_in_outlist_time)
+        self.pushButton_9.clicked.connect(self.clear_list1)
+        self.pushButton_10.clicked.connect(self.clear_list2)
         self.categories = []
         self.goods = []
         self.timedata = []
@@ -246,13 +250,19 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         for item in self.listWidget_3.selectedItems():
             self.listWidget_3.takeItem(self.listWidget_3.row(item))
 
+    def clear_list1(self):
+        self.listWidget.clear()
+
+    def clear_list2(self):
+        self.listWidget_3.clear()
+
     def open_dialog(self):
         if self.pushButton_4.isChecked():
             dialog = Dialog()
             dialog.exec_()
             if dialog.accepted:
                 get_time = dialog.time.split(':')
-                self.timedata = [self.days_weekly[dialog.day],
+                self.timedata = [dialog.day,
                                  datetime.time(hour=int(get_time[0]),
                                                minute=int(get_time[1])),
                                  int(dialog.count_pars),
@@ -383,20 +393,23 @@ class Dialog(QtWidgets.QDialog, dialog_window.Ui_Dialog):
         self.setupUi(self)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.cancel)
-        self.comboBox.addItem('Понедельник')
-        self.comboBox.addItem('Вторник')
-        self.comboBox.addItem('Среда')
-        self.comboBox.addItem('Четверг')
-        self.comboBox.addItem('Пятница')
-        self.comboBox.addItem('Суббота')
-        self.comboBox.addItem('Воскресенье')
         self.accepted = False
-        self.day = None
+        self.day = []
         self.time = None
         self.count_pars = None
 
     def accept(self):
-        self.day = self.comboBox.currentText()
+        check_boxes = [self.checkBox.isChecked(),
+                       self.checkBox_2.isChecked(),
+                       self.checkBox_3.isChecked(),
+                       self.checkBox_4.isChecked(),
+                       self.checkBox_5.isChecked(),
+                       self.checkBox_6.isChecked(),
+                       self.checkBox_7.isChecked()]
+        for i in range(0, 7):
+            if check_boxes[i]:
+                self.day.append(i)
+        print(self.day)
         self.time = self.timeEdit.text()
         self.count_pars = self.spinBox_2.text()
         self.accepted = True
@@ -418,9 +431,10 @@ class TimerRun(QThread):
     def run(self):
         while True:
             if self.timedata[2]>0:
+                print(self.timedata)
                 time.sleep(1)
                 now = datetime.datetime.now()
-                if now.weekday() == self.timedata[0]\
+                if now.weekday() in self.timedata[0]\
                         and now.time().minute == self.timedata[1].minute \
                         and now.time().hour == self.timedata[1].hour:
                     if [now.day, now.time().hour, now.time().minute] not in self.parsed:
