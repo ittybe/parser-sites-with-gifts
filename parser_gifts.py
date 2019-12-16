@@ -52,7 +52,9 @@ class Gifts:
         try:
             r = requests.get(page)
             html = BS(r.content, 'html.parser')
+
             main_good = self.pars_good_main(page)
+
             main_good['price'] = [main_good['price']]
             main_good['color'] = [main_good['color']]
             main_good['stocks'] = [main_good['stocks']]
@@ -83,12 +85,16 @@ class Gifts:
     def pars_good_main(page):
         r = requests.get(page)
         html = BS(r.content, 'html.parser')
+        print('*********1')
+        print(page)
         name_block = html.select('.itm-hdr')[0].select('h1')[0].text
+        print('*********2')
         if len(name_block.split(', ')) == 1:
             name = name_block.split(' ')[0]
         else:
             name = name_block.split(', ')[0]
         price = float(html.select('.j_price')[0].select('span')[0].text.replace(',', '.').replace(' ', ''))
+
         section = html.select('.itm-hdr')[0].select('li')[-3].select('span')[0].text
         mark = html.select('.btn.itm-lbl.color--danger')
         if mark:

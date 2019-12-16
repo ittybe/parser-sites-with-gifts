@@ -104,7 +104,7 @@ class HappyGifts:
                         output_text = ''
                         for p in p_select[inf_select.index(inf)].select('p'):
                             output_text += p.text+' '
-                        descriptions.append(output_text)
+                        descriptions.append(output_text.replace('            ', '').replace('\n',''))
                     if inf.text == 'Характеристики':
                         if len(p_select)==len(inf_select):
                             for p in p_select[inf_select.index(inf)].select('p'):

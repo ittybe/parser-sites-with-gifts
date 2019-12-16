@@ -43,7 +43,9 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         self.pushButton_2.clicked.connect(self.add_in_outlist)
         self.pushButton_3.clicked.connect(lambda :self.parsing(self.get_goods()))
         self.pushButton_6.clicked.connect(self.add_page)
+        self.pushButton_7.clicked.connect(self.add_page_intimelist)
         self.pushButton_4.clicked.connect(self.open_dialog)
+        self.pushButton_8.clicked.connect(self.add_in_outlist_time)
         self.categories = []
         self.goods = []
         self.timedata = []
@@ -107,13 +109,22 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                 if item == select_item.text():
                     if self.comboBox.currentText() == 'https://happygifts.ru/':
                         self.listWidget.addItem('https://happygifts.ru/' + good['href'][1:])
-                        self.listWidget_3.addItem('https://happygifts.ru/' + good['href'][1:])
                     elif self.comboBox.currentText() == 'https://gifts.ru/':
                         self.listWidget.addItem('https://gifts.ru/' + good['href'][1:])
-                        self.listWidget_3.addItem('https://gifts.ru/' + good['href'][1:])
                     elif self.comboBox.currentText() == 'https://www.oasiscatalog.com/':
                         self.listWidget.addItem('https://www.oasiscatalog.com/' + good['href'][1:])
+
+    def add_in_outlist_time(self):
+        for select_item in self.listWidget_2.selectedItems():
+            for good in self.goods:
+                item = good['title'] + ' Артикул:' + good['vendor code']
+                if item == select_item.text():
+                    if self.comboBox.currentText() == 'https://happygifts.ru/':
+                        self.listWidget_3.addItem('https://happygifts.ru/' + good['href'][1:])
+                    elif self.comboBox.currentText() == 'https://gifts.ru/':
                         self.listWidget_3.addItem('https://gifts.ru/' + good['href'][1:])
+                    elif self.comboBox.currentText() == 'https://www.oasiscatalog.com/':
+                        self.listWidget_3.addItem('https://www.oasiscatalog.com/' + good['href'][1:])
 
     def get_goods(self):
         goods = []
@@ -142,6 +153,7 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
             target_row = [1, 1, 1]
             try:
                 for good in goods:
+                    print(good)
                     if good[0] not in sheets_pages:
                         sheets_pages.append(good[0])
                         sheets_object.append(wb.add_sheet(good[0].split('/')[-2]))
@@ -212,7 +224,10 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                             if item:
                                 for i in range(0, len(item)):
                                     ws.write(tr + i, 10, item[i])
-                    target_row[sheets_pages.index(good[0])] += len(good[1]['colors'])
+                    if len(good[1]['colors']) > len(good[1]['marks']):
+                        target_row[sheets_pages.index(good[0])] += len(good[1]['colors'])
+                    else:
+                        target_row[sheets_pages.index(good[0])] += len(good[1]['marks'])
                 wb.save('data.xls')
             except Exception as ex:
                 print(ex)
@@ -220,6 +235,10 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
     def add_page(self):
         item = self.lineEdit.text()
         self.listWidget.addItem(item)
+
+    def add_page_intimelist(self):
+        item = self.lineEdit_2.text()
+        self.listWidget_3.addItem(item)
 
     def remove_href(self):
         for item in self.listWidget.selectedItems():
@@ -241,14 +260,13 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                 if self.timedata[2]>0:
                     self.timer.timedata = self.timedata
                     self.timer.start()
-                    self.pushButton_4.setText('Остановиь парсинг')
+                    self.pushButton_4.setText('Остановить парсинг')
                     self.save_json()
                 else:
                     self.pushButton_4.setChecked(False)
                     self.pushButton_4.setText('Парсинг')
             else:
                 self.pushButton_4.setChecked(False)
-                self.timer.timedata[2] = 0
                 self.pushButton_4.setText('Парсинг')
         else:
             self.pushButton_4.setText('Парсинг')
@@ -343,7 +361,6 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
             with open('timedata.json') as f:
                 timedata_file = json.load(f)
                 if timedata_file['timedata'][2]>0:
-                    print('ok')
                     for page in timedata_file['pages']:
                         self.listWidget_3.addItem(page)
                     get_time = timedata_file['timedata'][1].split(':')

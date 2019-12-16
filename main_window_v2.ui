@@ -152,14 +152,14 @@
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>760</x>
+      <x>570</x>
       <y>510</y>
-      <width>93</width>
+      <width>131</width>
       <height>28</height>
      </rect>
     </property>
     <property name="text">
-     <string>Добавить</string>
+     <string>Добавить в разовый</string>
     </property>
    </widget>
    <widget class="QListWidget" name="listWidget">
@@ -291,6 +291,19 @@
     </property>
     <property name="checkable">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_8">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>510</y>
+      <width>131</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Добавить в парс по t</string>
     </property>
    </widget>
   </widget>
