@@ -18,7 +18,10 @@ import xlrd
 from xlutils.copy import copy
 import pytz
 ### Сделать так что бы виджеты были привязаны к combobox только один раз
+print(datetime.datetime.utcnow())
 print(pytz.all_timezones)
+print(datetime.datetime.now(tz= pytz.timezone('Europe/Samara')))
+print(datetime.datetime.now(tz= pytz.timezone('Europe/Samara')).utcoffset())
 class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
     days_weekly = {
         'Понедельник':  0,
@@ -266,7 +269,7 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                                  datetime.time(hour=int(get_time[0]),
                                                minute=int(get_time[1])),
                                  int(dialog.count_pars),
-                                 0]
+                                 0, dialog.selected_timezone]
                 if self.timedata[2]>0:
                     self.timer.timedata = self.timedata
                     self.timer.start()
@@ -358,7 +361,8 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
             timedata = [self.timer.timedata[0],
                         str(self.timer.timedata[1]),
                         self.timer.timedata[2],
-                        self.timer.timedata[3]]
+                        self.timer.timedata[3],
+                        self.timer.timedata[4]]
             to_json = {'timedata': timedata,
                     'pages': [self.listWidget_3.item(i).text() for i in range(0, self.listWidget_3.count())]}
             with open('timedata.json', 'w') as f:
@@ -377,7 +381,8 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                     self.timer.timedata = [timedata_file['timedata'][0],
                                             datetime.time(hour=int(get_time[0]), minute=int(get_time[1])),
                                             timedata_file['timedata'][2],
-                                           timedata_file['timedata'][3]]
+                                           timedata_file['timedata'][3],
+                                           timedata_file['timedata'][4]]
                     self.timer.start()
                     self.pushButton_4.setText('Остановиь парсинг')
                     self.pushButton_4.setChecked(True)
@@ -393,10 +398,13 @@ class Dialog(QtWidgets.QDialog, dialog_window.Ui_Dialog):
         self.setupUi(self)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.cancel)
+        self.comboBox.addItems(pytz.all_timezones)
+        self.comboBox.setCurrentText('Europe/Moscow')
         self.accepted = False
         self.day = []
         self.time = None
         self.count_pars = None
+        self.selected_timezone = None
 
     def accept(self):
         check_boxes = [self.checkBox.isChecked(),
@@ -412,6 +420,7 @@ class Dialog(QtWidgets.QDialog, dialog_window.Ui_Dialog):
         print(self.day)
         self.time = self.timeEdit.text()
         self.count_pars = self.spinBox_2.text()
+        self.selected_timezone = self.comboBox.currentText()
         self.accepted = True
         self.close()
 
@@ -431,9 +440,8 @@ class TimerRun(QThread):
     def run(self):
         while True:
             if self.timedata[2]>0:
-                print(self.timedata)
                 time.sleep(1)
-                now = datetime.datetime.now()
+                now = datetime.datetime.now(tz=pytz.timezone(self.timedata[4]))
                 if now.weekday() in self.timedata[0]\
                         and now.time().minute == self.timedata[1].minute \
                         and now.time().hour == self.timedata[1].hour:

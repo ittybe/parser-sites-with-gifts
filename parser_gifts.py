@@ -85,10 +85,7 @@ class Gifts:
     def pars_good_main(page):
         r = requests.get(page)
         html = BS(r.content, 'html.parser')
-        print('*********1')
-        print(page)
         name_block = html.select('.itm-hdr')[0].select('h1')[0].text
-        print('*********2')
         if len(name_block.split(', ')) == 1:
             name = name_block.split(' ')[0]
         else:
