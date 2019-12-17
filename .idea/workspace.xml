@@ -5,11 +5,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data.xls" beforeDir="false" afterPath="$PROJECT_DIR$/data.xls" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_timing.xls" beforeDir="false" afterPath="$PROJECT_DIR$/data_timing.xls" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dialog.ui" beforeDir="false" afterPath="$PROJECT_DIR$/dialog.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dialog_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/dialog_window.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_window_v2.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_window_v2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_window_v2.ui" beforeDir="false" afterPath="$PROJECT_DIR$/main_window_v2.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.spec" beforeDir="false" afterPath="$PROJECT_DIR$/main.spec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/timedata.json" beforeDir="false" afterPath="$PROJECT_DIR$/timedata.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -23,7 +21,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_window.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="549">
+            <state relative-caret-position="2457">
               <caret line="117" column="47" selection-start-line="117" selection-start-column="47" selection-end-line="117" selection-end-column="47" />
             </state>
           </provider>
@@ -32,17 +30,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_window_v2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="866">
-              <caret line="164" column="21" selection-start-line="164" selection-start-column="21" selection-end-line="164" selection-end-column="21" />
+            <state relative-caret-position="294">
+              <caret line="14" column="46" selection-start-line="14" selection-start-column="46" selection-end-line="14" selection-end-column="46" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parser_happygifts.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1853">
-              <caret line="109" column="51" selection-start-line="109" selection-start-column="51" selection-end-line="109" selection-end-column="51" />
+            <state relative-caret-position="325">
+              <caret line="96" column="29" lean-forward="true" selection-start-line="96" selection-start-column="29" selection-end-line="96" selection-end-column="29" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -53,8 +51,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parser_gifts.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="770">
-              <caret line="96" selection-start-line="96" selection-end-line="96" />
+            <state relative-caret-position="1953">
+              <caret line="93" selection-start-line="93" selection-end-line="93" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -65,8 +63,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parser_oasiscatalog.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="328">
-              <caret line="102" column="31" selection-start-line="102" selection-start-column="31" selection-end-line="102" selection-end-column="31" />
+            <state relative-caret-position="63">
+              <caret line="3" selection-start-line="3" selection-end-line="3" />
               <folding>
                 <element signature="e#24#59#0" expanded="true" />
               </folding>
@@ -75,19 +73,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/setup.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="13" column="1" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="24" column="21" lean-forward="true" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+            <state>
+              <caret line="234" column="35" lean-forward="true" selection-start-line="234" selection-start-column="35" selection-end-line="234" selection-end-column="35" />
               <folding>
                 <element signature="e#64#85#0" expanded="true" />
               </folding>
@@ -98,7 +87,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
+            <state relative-caret-position="2772">
               <caret line="132" column="61" selection-start-line="147" selection-start-column="16" selection-end-line="150" selection-end-column="84" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
@@ -111,7 +100,7 @@
         <entry file="file://$PROJECT_DIR$/timedata.json">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="2" selection-start-column="2" selection-end-column="2" />
+              <caret column="910" selection-start-column="910" selection-end-column="910" />
             </state>
           </provider>
         </entry>
@@ -119,7 +108,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dialog.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="884">
+            <state relative-caret-position="1092">
               <caret line="52" column="55" selection-start-line="52" selection-start-column="55" selection-end-line="52" selection-end-column="55" />
             </state>
           </provider>
@@ -147,6 +136,10 @@
       <find>self.timedata</find>
       <find>day</find>
       <find>print</find>
+      <find>Moscow</find>
+      <find>Mosco</find>
+      <find>Mosc</find>
+      <find>now</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -157,12 +150,12 @@
       <list>
         <option value="$PROJECT_DIR$/main_window.py" />
         <option value="$PROJECT_DIR$/main_window_v2.py" />
-        <option value="$PROJECT_DIR$/parser_oasiscatalog.py" />
         <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/timedata.json" />
-        <option value="$PROJECT_DIR$/parser_gifts.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/parser_happygifts.py" />
+        <option value="$PROJECT_DIR$/parser_gifts.py" />
+        <option value="$PROJECT_DIR$/parser_oasiscatalog.py" />
         <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
@@ -182,21 +175,22 @@
         <option value="$PROJECT_DIR$/.idea/parser_3web.iml" />
         <option value="$PROJECT_DIR$/.idea/misc.xml" />
         <option value="$PROJECT_DIR$/.idea/modules.xml" />
+        <option value="$PROJECT_DIR$/.idea/parser_3web.iml" />
+        <option value="$PROJECT_DIR$/.idea/misc.xml" />
+        <option value="$PROJECT_DIR$/.idea/modules.xml" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1282" />
-    <option name="y" value="2" />
-    <option name="width" value="1280" />
-    <option name="height" value="1023" />
+    <option name="x" value="790" />
+    <option name="width" value="1772" />
+    <option name="height" value="1392" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -208,6 +202,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -234,9 +229,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="C:\Users\Maksim_Shevtsov\AppData\Local\Programs\Python\Python37\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
@@ -269,6 +264,10 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python.test" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
@@ -378,7 +377,14 @@
       <option name="project" value="LOCAL" />
       <updated>1576527741570</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Добавления для часового пояса">
+      <created>1576566398776</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1576566398776</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TodoView" selected-index="1">
@@ -391,21 +397,22 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1282" y="2" width="1280" height="1023" extended-state="0" />
+    <frame x="790" y="0" width="1772" height="1392" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28099838" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2004635" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49516907" visible="true" weight="0.29101124" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49015063" weight="0.29071662" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49597424" weight="0.3988764" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.4983897" weight="0.32921347" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49677938" weight="0.32921347" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.48470208" weight="0.3269663" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5048309" side_tool="true" visible="true" weight="0.29101124" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49710312" weight="0.32899022" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4930475" weight="0.32899022" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.47682503" visible="true" weight="0.32654724" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.52317494" side_tool="true" visible="true" weight="0.32654724" />
       <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.4983897" weight="0.32921347" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -425,7 +432,8 @@
     <MESSAGE value="парсер каталога oasiscatalog" />
     <MESSAGE value="парсер товаров oasiscatalog" />
     <MESSAGE value="парсинг по времени" />
-    <option name="LAST_COMMIT_MESSAGE" value="парсинг по времени" />
+    <MESSAGE value="Добавления для часового пояса" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавления для часового пояса" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/dialog_window.py">
@@ -436,64 +444,24 @@
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python38/Lib/json/decoder.py" />
-    <entry file="file://$PROJECT_DIR$/timedata.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="2" selection-start-column="2" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dialog.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="884">
-          <caret line="52" column="55" selection-start-line="52" selection-start-column="55" selection-end-line="52" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="1" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py" />
     <entry file="file://$PROJECT_DIR$/main_window.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="549">
+        <state relative-caret-position="2457">
           <caret line="117" column="47" selection-start-line="117" selection-start-column="47" selection-end-line="117" selection-end-column="47" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main_window_v2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="866">
-          <caret line="164" column="21" selection-start-line="164" selection-start-column="21" selection-end-line="164" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parser_oasiscatalog.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="102" column="31" selection-start-line="102" selection-start-column="31" selection-end-line="102" selection-end-column="31" />
-          <folding>
-            <element signature="e#24#59#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parser_gifts.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="770">
-          <caret line="96" selection-start-line="96" selection-end-line="96" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="294">
+          <caret line="14" column="46" selection-start-line="14" selection-start-column="46" selection-end-line="14" selection-end-column="46" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
+        <state relative-caret-position="2772">
           <caret line="132" column="61" selection-start-line="147" selection-start-column="16" selection-end-line="150" selection-end-column="84" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
@@ -501,22 +469,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parser_happygifts.py">
+    <entry file="file://$PROJECT_DIR$/dialog.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1853">
-          <caret line="109" column="51" selection-start-line="109" selection-start-column="51" selection-end-line="109" selection-end-column="51" />
+        <state relative-caret-position="1092">
+          <caret line="52" column="55" selection-start-line="52" selection-start-column="55" selection-end-line="52" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parser_gifts.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1953">
+          <caret line="93" selection-start-line="93" selection-end-line="93" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/timedata.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="910" selection-start-column="910" selection-end-column="910" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="21" lean-forward="true" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+        <state>
+          <caret line="234" column="35" lean-forward="true" selection-start-line="234" selection-start-column="35" selection-end-line="234" selection-end-column="35" />
           <folding>
             <element signature="e#64#85#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parser_oasiscatalog.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+          <folding>
+            <element signature="e#24#59#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parser_happygifts.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="96" column="29" lean-forward="true" selection-start-line="96" selection-start-column="29" selection-end-line="96" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>

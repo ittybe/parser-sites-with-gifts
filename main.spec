@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['main.py'],
-             pathex=['D:\\Project\\parser_3web'],
+             pathex=['D:\\Projects\\parser_3web'],
              binaries=[],
              datas=[],
              hiddenimports=[],

@@ -18,10 +18,6 @@ import xlrd
 from xlutils.copy import copy
 import pytz
 ### Сделать так что бы виджеты были привязаны к combobox только один раз
-print(datetime.datetime.utcnow())
-print(pytz.all_timezones)
-print(datetime.datetime.now(tz= pytz.timezone('Europe/Samara')))
-print(datetime.datetime.now(tz= pytz.timezone('Europe/Samara')).utcoffset())
 class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
     days_weekly = {
         'Понедельник':  0,
