@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+
+# Done
 from bs4 import BeautifulSoup as BS
 import requests
 import time
@@ -20,23 +22,22 @@ class Oasiscatalog:
         self.main_page = 'https://www.oasiscatalog.com/' 
         # create browser, in order to wait for loading page
         chrome_options = Options()
-        #chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--headless")
 
         self.browser = webdriver.Chrome(config.PATH_TO_CHROMEDRIVER,chrome_options=chrome_options)
 
     def get_loaded_page(self, url, by_what, name_of_by_what,delay = 3):
         self.browser.get(url)
         WebDriverWait(self.browser, delay).until(EC.presence_of_element_located((by_what, name_of_by_what)))
-        return self.browser.page_source
-
-           
+        return self.browser.page_source      
     # done 
     def parser_category(self):
         cat_link = "https://www.oasiscatalog.com/categories/"
 
+        # self.browser.get(cat_link)
+        # self.browser.find_element(By.CLASS_NAME, "rubricator__desktop-toggler").click()
+
         r = requests.get(cat_link)
-        
-        
         html = BS(r.content, 'html.parser')
         categories = []
 
@@ -84,7 +85,7 @@ class Oasiscatalog:
                 i += 1
         return goods
 
-    def parser_good(self,page):
+    def parser_good(self, page):
         try:
             r = requests.get(page)
             html = BS(r.content, 'html.parser')
@@ -115,7 +116,7 @@ class Oasiscatalog:
             print(ex)
             print("[EROR]*****************************************************")
 
-
+    # done
     def pars_good_main(self, page):
         html_tree = self.get_loaded_page(page, By.CLASS_NAME, "price")
         html = BS(html_tree , 'html.parser')
@@ -150,3 +151,17 @@ class Oasiscatalog:
             descript = descript[0].text.strip()
         return {'name': name, 'price': price, 'section': section, 'mark': marks, 'color': color, 'href': href,
                 'stocks': stock, 'material': material, 'descript': descript}
+
+
+    # these async version of method for gui  
+    async def parser_category_async(self):
+        self.parser_category()
+
+    async def parser_goods_async(self, href):
+        self.parser_goods(href)
+
+    async def parser_good_async(self, page):
+        self.parser_good(page)
+    
+    async def pars_good_main_async(self, page):
+        self.pars_good_main(page)

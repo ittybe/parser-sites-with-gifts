@@ -17,6 +17,7 @@ import json
 import xlrd # check
 from xlutils.copy import copy # check
 import pytz
+
 ### Сделать так что бы виджеты были привязаны к combobox только один раз
 class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
     days_weekly = {

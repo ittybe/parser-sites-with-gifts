@@ -23,7 +23,8 @@ class HappyGifts:
 
     async def parser_category_async(self):
         self.parser_category()
-
+        
+    # done
     def parser_goods(self, href):
         first_page = self.main_page + href[1:]
         r = requests.get(first_page)
@@ -39,11 +40,13 @@ class HappyGifts:
             print('cтраница %i' %i)
             r = requests.get(first_page+'?PAGEN_1=' + str(i))
             html = BS(r.content, 'html.parser')
+            print(first_page+'?PAGEN_1=' + str(i))
+            
             for el in html.select('.catalog-item-container'):
                 text_container = el.select('.text-container')
                 if text_container:
                     title = text_container[0].select('.product-title')
-                    product_number = text_container[0].select('.product-number')[0]['title']
+                    product_number = el.select('.product-number')[0]['title']
                     goods.append({'title': title[0].text, 'href': title[0]['href'], 'vendor code': product_number})
         return goods
 
