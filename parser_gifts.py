@@ -7,7 +7,7 @@ import requests
 class Gifts:
     def __init__(self):
         self.main_page = 'https://gifts.ru/'
-
+    # work
     def parser_category(self):
         r = requests.get(self.main_page)
         html = BS(r.content, 'html.parser')
@@ -24,6 +24,7 @@ class Gifts:
             categories.append({'title': title, 'href': href, 'subcategories': subcategories})
         return categories
 
+    # done
     def parser_goods(self, href):
         first_page = self.main_page + href[1:]
         r = requests.get(first_page)
@@ -38,21 +39,22 @@ class Gifts:
             print('cтраница %i' %i)
             r = requests.get(first_page+'/page' + str(i))
             html = BS(r.content, 'html.parser')
-            
-            with open("test.html", "wb") as f:
-                f.write(r.content)
 
-            for el in html.select('.j_parent'):
+            articles = []
+            for el in html.find_all("li", class_="j_articlecode"):
+                article = el.text.replace("Артикул: ", '')
+                articles.append(article)
+            for el, article in zip(html.find_all("div", class_='catalog-grid-info'), articles):
                 title = el.select('.catalog-grid-name')[0].text
-                print("title: " + title)
-                product_number = el.select('.j_articlecode')[0].text.replace('Артикул: ', '')
-                print(product_number)
+                product_number = article
                 check_colors = el.select('.itm-clrs')
                 if check_colors:
                     href = check_colors[0].select('.j_child')[0]['data-hash']
                 else:
                     href = el.select('.catalog-grid-link')[0]['href']
                 goods.append({'title': title, 'href': href, 'vendor code': product_number})
+                
+
         return goods
 
 
