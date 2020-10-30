@@ -3,6 +3,8 @@
 # import main_window
 import main_window_v2
 import dialog_window
+import requests
+from bs4 import BeautifulSoup as BS
 from PyQt5 import QtWidgets
 import sys
 from parser_happygifts import HappyGifts
@@ -40,13 +42,13 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         self.oasiscatalog = Oasiscatalog()
         self.pushButton.clicked.connect(self.update_categorie)
         self.listWidget.itemClicked.connect(self.remove_href)
-        self.listWidget_3.itemClicked.connect(self.remove_href)
+        self.listWidget_3.itemClicked.connect(self.remove_href) 
         self.pushButton_5.clicked.connect(self.update_goods)
-        self.pushButton_2.clicked.connect(self.add_in_outlist)
-        self.pushButton_3.clicked.connect(lambda :self.parsing(self.get_goods()))
+        self.pushButton_2.clicked.connect(self.add_in_outlist) 
+        self.pushButton_3.clicked.connect(lambda :self.parsing(self.get_goods()))  ######################
         self.pushButton_6.clicked.connect(self.add_page)
         self.pushButton_7.clicked.connect(self.add_page_intimelist)
-        self.pushButton_4.clicked.connect(self.open_dialog)
+        self.pushButton_4.clicked.connect(self.open_dialog) ############################
         self.pushButton_8.clicked.connect(self.add_in_outlist_time)
         self.pushButton_9.clicked.connect(self.clear_list1)
         self.pushButton_10.clicked.connect(self.clear_list2)
@@ -140,8 +142,17 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                 goods.append([main_page, good])
                 print(good)
             elif main_page == 'https://gifts.ru/':
-                good = self.gifts.parser_good(self.listWidget.item(i).text())
-                goods.append([main_page, good])
+                try:
+                    good = self.gifts.parser_good(self.listWidget.item(i).text())
+                    goods.append([main_page, good])
+                except IndexError as ex: 
+                    r = requests.get(self.listWidget.item(i).text())
+                    soup = BS(r.content, "html.parser")
+                    urls = soup.find_all('a', class_="catalog-grid-link")
+                    urls = ['https://gifts.ru' + url['href'] for url in urls] 
+                    for url in urls:
+                        good = self.gifts.parser_good(url)
+                        goods.append([main_page, good])
                 print(good)
             elif main_page == 'https://www.oasiscatalog.com/':
                 good = self.oasiscatalog.parser_good(self.listWidget.item(i).text())

@@ -26,7 +26,7 @@ class Oasiscatalog:
 
         self.browser = webdriver.Chrome(config.PATH_TO_CHROMEDRIVER,chrome_options=chrome_options)
 
-    def get_loaded_page(self, url, by_what, name_of_by_what,delay = 3):
+    def get_loaded_page(self, url, by_what, name_of_by_what,delay = 1.5):
         self.browser.get(url)
         WebDriverWait(self.browser, delay).until(EC.presence_of_element_located((by_what, name_of_by_what)))
         return self.browser.page_source      

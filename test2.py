@@ -15,7 +15,6 @@ categories_g = gifts.parser_category()
 data = gifts.pars_good_main("https://gifts.ru/id/100922")
 
 print(data)
-exit()
 goods_g = []
 for categorie in categories_g:
     print('[INFO] парсим каталог gifts ' + categorie['title'])

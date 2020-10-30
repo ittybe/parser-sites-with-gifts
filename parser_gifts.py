@@ -59,10 +59,11 @@ class Gifts:
 
 
     def parser_good(self,page):
+        url = None
         try:
             r = requests.get(page)
             html = BS(r.content, 'html.parser')
-
+            url = page
             main_good = self.pars_good_main(page)
 
             main_good['price'] = [main_good['price']]
@@ -75,7 +76,7 @@ class Gifts:
                 other_colors = item_other_colors_box[0].select('a')
                 for item in other_colors:
                     href_color = item['href']
-                    good_color = self.pars_good_main(self.main_page+href_color[1:])
+                    good_color = self.pars_good_main(url)
                     main_good['price'].append(good_color['price'])
                     main_good['color'].append(good_color['color'])
                     main_good['stocks'].append(good_color['stocks'])
@@ -85,10 +86,11 @@ class Gifts:
                     'marks': main_good['mark'], 'prices': main_good['price'], 'colors': main_good['color'],
                     'stock_availability': main_good['stocks'], 'descriptions': main_good['descript'],
                     'materials': main_good['material']}
-
         except Exception as ex:
             print("[EROR]*****************************************************")
             print(ex)
+            print(url)
+            raise
             print("[EROR]*****************************************************")
 
     @staticmethod
@@ -100,8 +102,7 @@ class Gifts:
             name = name_block.split(' ')[0]
         else:
             name = name_block.split(', ')[0]
-        price = float(html.select('.j_price')[0].select('span')[0].text.replace(',', '.').replace(' ', ''))
-
+        price = float(html.find_all('ul', {'id': 'j_prices_host'})[0].text.replace(' ', ''))
         section = html.select('.itm-hdr')[0].select('li')[-3].select('span')[0].text
         mark = html.select('.btn.itm-lbl.color--danger')
         if mark:
