@@ -18,20 +18,25 @@ class Oasiscatalog:
         # not for category parsing
         # because tree with category names appears dynamically by clicking on element
         self.main_page = 'https://www.oasiscatalog.com/' 
+        # create browser, in order to wait for loading page
+        chrome_options = Options()
+        #chrome_options.add_argument("--headless")
 
+        self.browser = webdriver.Chrome(config.PATH_TO_CHROMEDRIVER,chrome_options=chrome_options)
 
+    def get_loaded_page(self, url, by_what, name_of_by_what,delay = 3):
+        self.browser.get(url)
+        WebDriverWait(self.browser, delay).until(EC.presence_of_element_located((by_what, name_of_by_what)))
+        return self.browser.page_source
+
+           
     # done 
     def parser_category(self):
         cat_link = "https://www.oasiscatalog.com/categories/"
 
         r = requests.get(cat_link)
         
-        # create browser, in order to wait for loading page
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-
-        browser = webdriver.Chrome(config.PATH_TO_CHROMEDRIVER,chrome_options=chrome_options)
-
+        
         html = BS(r.content, 'html.parser')
         categories = []
 
@@ -40,11 +45,11 @@ class Oasiscatalog:
             href = el['href']
 
             subcat_link = "https://www.oasiscatalog.com"+ href
-            browser.get(subcat_link)
+            self.browser.get(subcat_link)
             delay = 3
-            WebDriverWait(browser, delay).until(EC.presence_of_element_located((By.CLASS_NAME, 'subcats__link')))
+            WebDriverWait(self.browser, delay).until(EC.presence_of_element_located((By.CLASS_NAME, 'subcats__link')))
            
-            sub_html = BS(browser.page_source, "html.parser")
+            sub_html = BS(self.browser.page_source, "html.parser")
             sub_els = sub_html.find_all(class_='subcats__link')
 
             subcategories = []
@@ -111,12 +116,14 @@ class Oasiscatalog:
             print("[EROR]*****************************************************")
 
 
-    @staticmethod
-    def pars_good_main(page):
-        r = requests.get(page)
-        html = BS(r.content, 'html.parser')
+    def pars_good_main(self, page):
+        html_tree = self.get_loaded_page(page, By.CLASS_NAME, "price")
+        html = BS(html_tree , 'html.parser')
         name = html.select('.product-heading__title')[0].text.strip()
-        price = float(html.select('.product-price__client')[0].select('meta')[0]['content'])
+        # # with open("test.html", "w") as f:
+        # #     f.write(str(html_tree))
+        # print(name)
+        price = float(html.select('.product-price2')[0].select('meta')[0]['content'])
         section = html.select('.breadcrumbs')[0].select('.breadcrumbs__item')[-2].select('span')[0].text
         marks = html.select('.product-heading__ribbon')
         if marks:

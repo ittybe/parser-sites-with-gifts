@@ -5,7 +5,7 @@ from parser_oasiscatalog import Oasiscatalog
 
 
 oasiscatalog = Oasiscatalog()
-good = Oasiscatalog.pars_good_main("https://www.oasiscatalog.com/item/00000025135")
+good = oasiscatalog.pars_good_main("https://www.oasiscatalog.com/item/00000025135")
 print(good)
 exit()
 print('[INFO] парсим категории oasiscatalog')
