@@ -5,6 +5,22 @@ from main import MainApp
 import xlwt
 
 def test():
+    oasiscatalog = Oasiscatalog()
+    print('[INFO] парсим категории oasiscatalog')
+    categories_o = oasiscatalog.parser_category()
+    print('[INFO] категории:' + str(categories_o))
+    goods_o = []
+    for categorie in categories_o:
+        print('[INFO] парсим каталог oasiscatalog ' + categorie['title'])
+        goods = oasiscatalog.parser_goods(categorie['href'])
+        for good in goods:
+            goods_o.append(good)
+        print('[INFO] ' + categorie['title'] + ' товары получены')
+        break
+    print(goods_o)
+
+    exit()
+
     happygifts = HappyGifts()
     print('[INFO] парсим категории happygifts')
     categories_h = happygifts.parser_category()
@@ -13,11 +29,14 @@ def test():
     print('[INFO] парсим категории gifts')
     categories_g = gifts.parser_category()
     print('[INFO] категории:' + str(categories_g))
-    oasiscatalog = Oasiscatalog()
-    print('[INFO] парсим категории oasiscatalog')
-    categories_o = oasiscatalog.parser_category()
-    print('[INFO] категории:' + str(categories_o))
+    
+    
+    
+    
+    
+    exit()
     goods_h = []
+
     for categorie in categories_h:
         print('[INFO] парсим каталог happygifts ' + categorie['title'])
         goods = happygifts.parser_goods(categorie['href'])
@@ -31,13 +50,7 @@ def test():
         for good in goods:
             goods_g.append(good)
         print('[INFO] ' + categorie['title'] + ' товары получены')
-    goods_o = []
-    for categorie in categories_o:
-        print('[INFO] парсим каталог oasiscatalog ' + categorie['title'])
-        goods = oasiscatalog.parser_goods(categorie['href'])
-        for good in goods:
-            goods_o.append(good)
-        print('[INFO] ' + categorie['title'] + ' товары получены')
+    
     goods_parsed = []
     for good in goods_h:
         print('[INFO] парсим товар happygifts ' + good['title'])
@@ -57,11 +70,16 @@ def test():
         print('[INFO] парсим товар oasiscatalog ' + good['title'])
         good_out = oasiscatalog.parser_good('https://www.oasiscatalog.com/' + good['href'][1:])
         goods_parsed.append(['https://www.oasiscatalog.com/', good_out])
-        print('[INFO] товар плучен: ' + good['title'])
+        print('[INFO] товар получен: ' + good['title'])
         if len(goods_parsed) == 120:
             break
     print('[INFO] Запись в файл')
+    
+    print(goods_parsed)
+    exit()
     parsing(goods_parsed)
+    
+
     print('[INFO] Записано')
 
 

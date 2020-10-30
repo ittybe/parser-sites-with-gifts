@@ -1,26 +1,59 @@
 # -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup as BS
 import requests
+import time
+
+from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.chrome.options import Options
+
+import config
 
 
 class Oasiscatalog:
     def __init__(self):
-        self.main_page = 'https://www.oasiscatalog.com/'
+        # not for category parsing
+        # because tree with category names appears dynamically by clicking on element
+        self.main_page = 'https://www.oasiscatalog.com/' 
 
+
+    # done 
     def parser_category(self):
-        r = requests.get(self.main_page)
+        cat_link = "https://www.oasiscatalog.com/categories/"
+
+        r = requests.get(cat_link)
+        
+        # create browser, in order to wait for loading page
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+
+        browser = webdriver.Chrome(config.PATH_TO_CHROMEDRIVER,chrome_options=chrome_options)
+
         html = BS(r.content, 'html.parser')
         categories = []
-        for el in html.select('.rubricator__l1-item'):
-            title = el.select('.rubricator__l1-link')[0].select('.rubricator__l1-item-text')[0].text
-            href = el.select('.rubricator__l1-link')[0]['href']
-            list_item = el.select('.rubricator__l2-link')
+
+        for el in html.find_all(class_='subcats__link'):
+            title = el.text.strip()
+            href = el['href']
+
+            subcat_link = "https://www.oasiscatalog.com"+ href
+            browser.get(subcat_link)
+            delay = 3
+            WebDriverWait(browser, delay).until(EC.presence_of_element_located((By.CLASS_NAME, 'subcats__link')))
+           
+            sub_html = BS(browser.page_source, "html.parser")
+            sub_els = sub_html.find_all(class_='subcats__link')
+
             subcategories = []
-            if list_item:
-                for item in list_item:
-                    subcategorie = item
-                    subcategories.append({'title': subcategorie.text.strip(), 'href': subcategorie['href']})
+            for sub_el in sub_els:
+                sub_title = sub_el.text.strip()
+                sub_href = sub_el["href"]
+                subcategories.append({'title': sub_title, 'href': sub_href })
             categories.append({'title': title, 'href': href, 'subcategories': subcategories})
+
         return categories
 
     def parser_goods(self, href):

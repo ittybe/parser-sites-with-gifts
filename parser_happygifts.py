@@ -21,6 +21,9 @@ class HappyGifts:
             categories.append({'title': title[0].text, 'href': title[0]['href'], 'subcategories': subcategories})
         return categories
 
+    async def parser_category_async(self):
+        self.parser_category()
+
     def parser_goods(self, href):
         first_page = self.main_page + href[1:]
         r = requests.get(first_page)
