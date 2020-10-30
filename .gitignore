@@ -1,6 +1,5 @@
 /env
 /__pycache__
-chromedriver.exe
 debug.log
 Problems.txt
 test.html

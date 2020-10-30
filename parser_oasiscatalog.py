@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Done
+# Done not optimized
 from bs4 import BeautifulSoup as BS
 import requests
 import time
@@ -152,16 +152,5 @@ class Oasiscatalog:
         return {'name': name, 'price': price, 'section': section, 'mark': marks, 'color': color, 'href': href,
                 'stocks': stock, 'material': material, 'descript': descript}
 
-
-    # these async version of method for gui  
-    async def parser_category_async(self):
-        self.parser_category()
-
-    async def parser_goods_async(self, href):
-        self.parser_goods(href)
-
-    async def parser_good_async(self, page):
-        self.parser_good(page)
-    
-    async def pars_good_main_async(self, page):
-        self.pars_good_main(page)
+    def __del__(self):
+        self.browser.Dispose()

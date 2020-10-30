@@ -1,3 +1,5 @@
+
+
 from bs4 import BeautifulSoup as BS
 import requests
 
@@ -36,9 +38,15 @@ class Gifts:
             print('cтраница %i' %i)
             r = requests.get(first_page+'/page' + str(i))
             html = BS(r.content, 'html.parser')
+            
+            with open("test.html", "wb") as f:
+                f.write(r.content)
+
             for el in html.select('.j_parent'):
                 title = el.select('.catalog-grid-name')[0].text
+                print("title: " + title)
                 product_number = el.select('.j_articlecode')[0].text.replace('Артикул: ', '')
+                print(product_number)
                 check_colors = el.select('.itm-clrs')
                 if check_colors:
                     href = check_colors[0].select('.j_child')[0]['data-hash']

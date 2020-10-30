@@ -3,6 +3,22 @@ from parser_gifts import Gifts
 from parser_oasiscatalog import Oasiscatalog
 
 
+
+gifts = Gifts()
+print('[INFO] парсим категории gifts')
+categories_g = gifts.parser_category()
+
+goods_g = []
+
+for good in goods_g:
+    print('[INFO] парсим товар gifts ' + good['title'])
+    good_out = gifts.parser_good('https://gifts.ru/' + good['href'][1:])
+    goods_parsed.append(['https://gifts.ru/', good_out] )
+    print('[INFO] товар плучен: ' + good['title'])
+    if len(goods_parsed) == 80:
+        break
+
+exit()
 happygifts = HappyGifts()
 print('[INFO] парсим категории happygifts')
 categories_h = happygifts.parser_category()

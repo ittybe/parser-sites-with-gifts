@@ -1,3 +1,5 @@
+# done
+
 from bs4 import BeautifulSoup as BS
 import requests
 
@@ -23,7 +25,7 @@ class HappyGifts:
 
     async def parser_category_async(self):
         self.parser_category()
-        
+
     # done
     def parser_goods(self, href):
         first_page = self.main_page + href[1:]
