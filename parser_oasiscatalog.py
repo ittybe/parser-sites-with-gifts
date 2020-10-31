@@ -104,7 +104,7 @@ class Oasiscatalog:
         html = BS(html_tree , 'html.parser')
         try:
             if (html.find_all(class_="page-404-not-supply__product")):
-                return  {'name': "NOT FOUND", 'price': '', 'section': '', 'mark': '', 'color': '', 'href': page,
+                return  {'name': "NOT AVAILABLE", 'price': '', 'section': '', 'mark': '', 'color': '', 'href': page,
                 'stocks': '', 'material':'', 'descript': ''}
 
 

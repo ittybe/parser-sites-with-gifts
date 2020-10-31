@@ -90,6 +90,7 @@ class Gifts:
             print("[EROR]*****************************************************")
             print(ex)
             print(url)
+            raise
             print("[EROR]*****************************************************")
 
     @staticmethod
@@ -101,8 +102,14 @@ class Gifts:
             name = name_block.split(' ')[0]
         else:
             name = name_block.split(', ')[0]
-        price = float(html.find_all('ul', {'id': 'j_prices_host'})[0].text.replace(' ', ''))
+        try:
+            price = float(html.find_all('ul', {'id': 'j_prices_host'})[0].text.replace(' ', ''))
+        except ValueError:
+            price = html.find_all('ul', {'id': 'j_prices_host'})[0].text
+        except Exception:
+            price = "parse error"
         section = html.select('.itm-hdr')[0].select('li')[-3].select('span')[0].text
+        
         mark = html.select('.btn.itm-lbl.color--danger')
         if mark:
             mark = [mark[0].text]

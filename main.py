@@ -145,6 +145,13 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                 try:
                     good = self.gifts.parser_good(self.listWidget.item(i).text())
                     goods.append([main_page, good])
+                    if (good is None):
+                        print(good)
+                        print()
+                        print(goods)
+                        print()
+                        print(self.listWidget_3.item(i).text())
+
                 except IndexError: 
                     r = requests.get(self.listWidget.item(i).text())
                     soup = BS(r.content, "html.parser")
@@ -153,7 +160,7 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                     for url in urls:
                         good = self.gifts.parser_good(url)
                         goods.append([main_page, good])
-                print(good)
+                        print(good)
             elif main_page == 'https://www.oasiscatalog.com/':
                 good = self.oasiscatalog.parser_good(self.listWidget.item(i).text())
                 goods.append([main_page, good])
@@ -246,6 +253,9 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                 wb.save('data.xls')
             except Exception as ex:
                 print(ex)
+                print(goods)
+                with open("file.txt") as f:
+                    f.write(goods)
 
     def add_page(self):
         item = self.lineEdit.text()
@@ -301,11 +311,25 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
             if 'https://happygifts.ru' in main_page:
                 good = self.happygifts.parser_good(self.listWidget_3.item(i).text())
                 goods.append([main_page, good])
-                print(good)
+                if (good is None):
+                    print(good)
+                    print()
+                    print(goods)
+                    print()
+                    print(self.happygifts.parser_good(self.listWidget_3.item(i).text()))
+                    print()
+                    print(self.listWidget_3.item(i).text())
             elif 'https://gifts.ru' in main_page:
                 good = self.gifts.parser_good(self.listWidget_3.item(i).text())
                 goods.append([main_page, good])
-                print(good)
+                if (good is None):
+                    print(good)
+                    print()
+                    print(goods)
+                    print()
+                    print(self.gifts.parser_good(self.listWidget_3.item(i).text()))
+                    print()
+                    print(self.listWidget_3.item(i).text())
             elif 'https://www.oasiscatalog.com' in main_page:
                 good = self.oasiscatalog.parser_good(self.listWidget_3.item(i).text())
                 goods.append([main_page, good])
@@ -317,7 +341,6 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                     print(self.oasiscatalog.parser_good(self.listWidget_3.item(i).text()))
                     print()
                     print(self.listWidget_3.item(i).text())
-                    exit()
         if goods:
             count_pars = self.timer.timedata[3]
             if count_pars == 0:
