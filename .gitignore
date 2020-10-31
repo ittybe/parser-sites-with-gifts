@@ -1,6 +1,9 @@
 /env
 /__pycache__
 data.xls
+data_gifts .xls
+data_happygifts .xls
+data_oasis .xls
 debug.log
 test.html
 test1.html

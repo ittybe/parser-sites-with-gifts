@@ -12,7 +12,6 @@ import traceback
 # from selenium.common.exceptions import TimeoutException
 # from selenium.webdriver.chrome.options import Options
 
-import config
 
 
 class Oasiscatalog:

