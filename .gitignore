@@ -1,8 +1,7 @@
 /env
 /__pycache__
-debug.log
-Problems.txt
-test1.html
-test.html
 data.xls
-data_timing.xls
+debug.log
+test.html
+test1.html
+test2.py

