@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1348</width>
+    <width>1027</width>
     <height>652</height>
    </rect>
   </property>
@@ -335,13 +335,137 @@
      </item>
     </layout>
    </widget>
+   <widget class="QComboBox" name="combo_configs">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>30</y>
+      <width>311</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>10</y>
+      <width>55</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Конфиги</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="send_config_to_parse_timing">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>60</y>
+      <width>151</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>В парсинг по таймингу</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="send_config_to_parse">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>60</y>
+      <width>151</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>В разовый парсинг</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="update_list_of_configs">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>10</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>обновить конфиги</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="save_config_parse_timing">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>60</y>
+      <width>261</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Сохранить конфиг из парсинга по таймингу</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="save_config_parse">
+    <property name="geometry">
+     <rect>
+      <x>780</x>
+      <y>60</y>
+      <width>261</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Сохранить конфиг из разового парсинга</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="config_save_name">
+    <property name="geometry">
+     <rect>
+      <x>780</x>
+      <y>30</y>
+      <width>551</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>810</x>
+      <y>10</y>
+      <width>181</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>имя сохраняемого конфига</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_11">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>10</y>
+      <width>181</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>удалить выбранный конфиг</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1348</width>
+     <width>1027</width>
      <height>26</height>
     </rect>
    </property>

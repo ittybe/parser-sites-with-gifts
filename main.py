@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # import main_window
-
+from os import listdir
+from os.path import isfile, join
 import main_window_v2
 import dialog_window
 import requests
+import traceback
 from bs4 import BeautifulSoup as BS
 from PyQt5 import QtWidgets
 import sys
@@ -23,6 +25,7 @@ import json
 import xlrd # check
 from xlutils.copy import copy # check
 import pytz
+import pickle
 
 ### Сделать так что бы виджеты были привязаны к combobox только один раз
 class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
@@ -36,6 +39,7 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         'Воскресенье': 6,
     }
     def __init__(self):
+        self.config_save_dir = "configs"
         super().__init__()
         self.setupUi(self)
         self.comboBox.addItem('https://happygifts.ru/')
@@ -56,11 +60,82 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         self.pushButton_8.clicked.connect(self.add_in_outlist_time)
         self.pushButton_9.clicked.connect(self.clear_list1)
         self.pushButton_10.clicked.connect(self.clear_list2)
+
+        # dialog window 
+        self.save_config_parse.clicked.connect(lambda: self.save_config_parse_to_file(self.config_save_name.toPlainText()))
+        self.save_config_parse_timing.clicked.connect(lambda: self.save_config_parse_timing_to_file(self.config_save_name.toPlainText()))
+
+        self.update_list_of_configs.clicked.connect(self.read_list_of_configs)
+        self.send_config_to_parse.clicked.connect(lambda: self.send_config_to_list(self.combo_configs.currentText(), self.listWidget))
+        self.send_config_to_parse_timing.clicked.connect(lambda: self.send_config_to_list(self.combo_configs.currentText(), self.listWidget_3))
+        
+
+
         self.categories = []
         self.goods = []
         self.timedata = []
         self.timer = TimerRun(self)
         self.open_json()
+    
+    
+
+    def read_list_of_configs(self):
+        try: 
+            configs_files = [f for f in listdir(self.config_save_dir) if isfile(join(self.config_save_dir, f))]
+            configs_names = []
+            print(f"config files: {configs_files}" )
+            for conf_file in configs_files:
+                self.combo_configs.addItem(conf_file)            
+        except Exception as ex:
+            traceback.print_tb(ex.__traceback__)
+            print(ex)
+
+
+
+    def send_config_to_list(self, name_of_config, listWidget):
+        try:
+            with open(os.path.join(self.config_save_dir, name_of_config), "rb") as f:
+                config = pickle.load(f)
+            print(config)
+            print(name_of_config)
+            print(self.combo_configs.currentText())
+            print(name_of_config == self.combo_configs.currentText())
+            
+            urls = None
+            for key, value in config.items():
+                urls = value
+            print(urls)
+            for url in urls:
+                listWidget.addItem(url)
+        except Exception as ex:
+            traceback.print_exc()
+
+
+
+
+    
+    def save_config_parse_to_file(self, name_of_config):
+        return self.save_config(name_of_config, self.listWidget)
+
+
+    def save_config_parse_timing_to_file(self, name_of_config):
+        return self.save_config(name_of_config, self.listWidget_3)
+
+
+    def save_config(self, name_of_config, listWidget):
+        fileoutput = os.path.join(self.config_save_dir, name_of_config)
+        urls = []
+        for i in range(0, self.listWidget.count()):
+            url = self.listWidget.item(i).text()
+            urls.append(url)
+        config = {
+            name_of_config : urls
+        }
+        with open(fileoutput, "wb") as f:
+            pickle.dump(config, f)
+        return fileoutput
+        
+
 
     def save_data_in_excel_files(self, goods, prefix = ""):
         goods_happygifts = [good for good in goods if "happygifts.ru" in good[0]]
