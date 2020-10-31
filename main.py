@@ -52,7 +52,7 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         self.pushButton_3.clicked.connect(lambda : self.save_data_in_excel_files(self.get_goods()))  ######################
         self.pushButton_6.clicked.connect(self.add_page)
         self.pushButton_7.clicked.connect(self.add_page_intimelist)
-        self.pushButton_4.clicked.connect(self.open_dialog) ############################
+        self.pushButton_4.clicked.connect(self.open_dialog)
         self.pushButton_8.clicked.connect(self.add_in_outlist_time)
         self.pushButton_9.clicked.connect(self.clear_list1)
         self.pushButton_10.clicked.connect(self.clear_list2)
