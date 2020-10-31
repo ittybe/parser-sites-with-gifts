@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # import main_window
+# TODO implement delete config from dir
+
+
 from os import listdir
 from os.path import isfile, join
 import main_window_v2
@@ -26,6 +29,8 @@ import xlrd # check
 from xlutils.copy import copy # check
 import pytz
 import pickle
+from PyQt5.QtWidgets import QMessageBox
+
 
 ### Сделать так что бы виджеты были привязаны к combobox только один раз
 class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
@@ -38,6 +43,8 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         'Суббота': 5,
         'Воскресенье': 6,
     }
+
+
     def __init__(self):
         self.config_save_dir = "configs"
         super().__init__()
@@ -69,26 +76,45 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         self.send_config_to_parse.clicked.connect(lambda: self.send_config_to_list(self.combo_configs.currentText(), self.listWidget))
         self.send_config_to_parse_timing.clicked.connect(lambda: self.send_config_to_list(self.combo_configs.currentText(), self.listWidget_3))
         
-
+        self.delete_config.clicked.connect(lambda: self.delete_config_file(self.combo_configs.currentText()))
 
         self.categories = []
         self.goods = []
         self.timedata = []
         self.timer = TimerRun(self)
         self.open_json()
-    
-    
+    def show_error_message(self, text):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText("Error")
+        msg.setInformativeText(text)
+        msg.setWindowTitle("Error")
+        msg.exec_()
+    def are_you_sure(self, text, title = "Внимание"):
+        buttonReply = QMessageBox.question(self, title, text, QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if buttonReply == QMessageBox.Yes:
+            return True
+        else:
+            return False
+
+    def delete_config_file(self, name_of_config):
+        try:
+            if(self.are_you_sure(f'вы уверены что хотите удали конфиг "{name_of_config}"?')):
+                os.remove(os.path.join(self.config_save_dir, name_of_config))
+                self.read_list_of_configs()
+        except Exception as ex:
+            traceback.print_exc()
 
     def read_list_of_configs(self):
         try: 
+            self.combo_configs.clear()
             configs_files = [f for f in listdir(self.config_save_dir) if isfile(join(self.config_save_dir, f))]
             configs_names = []
             print(f"config files: {configs_files}" )
             for conf_file in configs_files:
                 self.combo_configs.addItem(conf_file)            
         except Exception as ex:
-            traceback.print_tb(ex.__traceback__)
-            print(ex)
+            traceback.print_exc()
 
 
 
@@ -101,12 +127,15 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
             print(self.combo_configs.currentText())
             print(name_of_config == self.combo_configs.currentText())
             
+            # i dont understand why but for some reason it doesnt get value by key in ordinary way
+            # that s why i did this stupid implementation 
             urls = None
             for key, value in config.items():
                 urls = value
             print(urls)
             for url in urls:
                 listWidget.addItem(url)
+            self.read_list_of_configs()
         except Exception as ex:
             traceback.print_exc()
 
@@ -123,16 +152,24 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
 
 
     def save_config(self, name_of_config, listWidget):
-        fileoutput = os.path.join(self.config_save_dir, name_of_config)
-        urls = []
-        for i in range(0, self.listWidget.count()):
-            url = self.listWidget.item(i).text()
-            urls.append(url)
-        config = {
-            name_of_config : urls
-        }
-        with open(fileoutput, "wb") as f:
-            pickle.dump(config, f)
+        try:
+            if (name_of_config == ''):
+                self.show_error_message("Вы не указали имя файла!!!")
+                return
+            fileoutput = os.path.join(self.config_save_dir, name_of_config)
+            urls = []
+            for i in range(0, self.listWidget.count()):
+                url = self.listWidget.item(i).text()
+                urls.append(url)
+            config = {
+                name_of_config : urls
+            }
+            with open(fileoutput, "wb") as f:
+                pickle.dump(config, f)
+                self.read_list_of_configs()
+        except Exception as exc:
+            traceback.print_exc()
+
         return fileoutput
         
 
@@ -155,7 +192,6 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         self.parsing(goods_gifts, f"data_gifts {prefix}.xls")
         self.parsing(goods_oasis, f"data_oasis {prefix}.xls")
         
-
 
     def update_categorie(self):
         if self.comboBox.currentText() == 'https://happygifts.ru/':

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1027</width>
-    <height>652</height>
+    <width>1337</width>
+    <height>688</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -47,7 +47,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>110</y>
+      <y>100</y>
       <width>841</width>
       <height>401</height>
      </rect>
@@ -168,9 +168,9 @@
    <widget class="QListWidget" name="listWidget">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>390</y>
-      <width>381</width>
+      <x>870</x>
+      <y>380</y>
+      <width>431</width>
       <height>121</height>
      </rect>
     </property>
@@ -178,9 +178,9 @@
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>550</y>
-      <width>381</width>
+      <x>870</x>
+      <y>540</y>
+      <width>431</width>
       <height>31</height>
      </rect>
     </property>
@@ -191,8 +191,8 @@
    <widget class="QPushButton" name="pushButton_6">
     <property name="geometry">
      <rect>
-      <x>1170</x>
-      <y>520</y>
+      <x>1200</x>
+      <y>510</y>
       <width>101</width>
       <height>23</height>
      </rect>
@@ -204,9 +204,9 @@
    <widget class="QLineEdit" name="lineEdit">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>520</y>
-      <width>271</width>
+      <x>870</x>
+      <y>510</y>
+      <width>321</width>
       <height>20</height>
      </rect>
     </property>
@@ -214,8 +214,8 @@
    <widget class="QListWidget" name="listWidget_3">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>150</y>
+      <x>870</x>
+      <y>110</y>
       <width>431</width>
       <height>121</height>
      </rect>
@@ -224,8 +224,8 @@
    <widget class="QLineEdit" name="lineEdit_2">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>280</y>
+      <x>870</x>
+      <y>240</y>
       <width>311</width>
       <height>20</height>
      </rect>
@@ -234,9 +234,9 @@
    <widget class="QPushButton" name="pushButton_7">
     <property name="geometry">
      <rect>
-      <x>1210</x>
-      <y>280</y>
-      <width>101</width>
+      <x>1190</x>
+      <y>240</y>
+      <width>111</width>
       <height>23</height>
      </rect>
     </property>
@@ -247,8 +247,8 @@
    <widget class="QPushButton" name="pushButton_4">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>310</y>
+      <x>870</x>
+      <y>270</y>
       <width>431</width>
       <height>31</height>
      </rect>
@@ -276,8 +276,8 @@
    <widget class="QWidget" name="horizontalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>350</y>
+      <x>870</x>
+      <y>340</y>
       <width>381</width>
       <height>41</height>
      </rect>
@@ -295,20 +295,13 @@
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_9">
-       <property name="text">
-        <string>Очистить</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </widget>
    <widget class="QWidget" name="horizontalLayoutWidget_3">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>110</y>
+      <x>870</x>
+      <y>70</y>
       <width>431</width>
       <height>41</height>
      </rect>
@@ -338,17 +331,17 @@
    <widget class="QComboBox" name="combo_configs">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>370</x>
       <y>30</y>
-      <width>311</width>
-      <height>21</height>
+      <width>491</width>
+      <height>31</height>
      </rect>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>370</x>
       <y>10</y>
       <width>55</width>
       <height>16</height>
@@ -361,10 +354,10 @@
    <widget class="QPushButton" name="send_config_to_parse_timing">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>550</x>
       <y>60</y>
       <width>151</width>
-      <height>28</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -374,10 +367,10 @@
    <widget class="QPushButton" name="send_config_to_parse">
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>710</x>
       <y>60</y>
       <width>151</width>
-      <height>28</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -387,7 +380,7 @@
    <widget class="QPushButton" name="update_list_of_configs">
     <property name="geometry">
      <rect>
-      <x>640</x>
+      <x>740</x>
       <y>10</y>
       <width>121</width>
       <height>21</height>
@@ -400,9 +393,9 @@
    <widget class="QPushButton" name="save_config_parse_timing">
     <property name="geometry">
      <rect>
-      <x>1070</x>
-      <y>60</y>
-      <width>261</width>
+      <x>870</x>
+      <y>300</y>
+      <width>431</width>
       <height>31</height>
      </rect>
     </property>
@@ -413,9 +406,9 @@
    <widget class="QPushButton" name="save_config_parse">
     <property name="geometry">
      <rect>
-      <x>780</x>
-      <y>60</y>
-      <width>261</width>
+      <x>870</x>
+      <y>570</y>
+      <width>431</width>
       <height>31</height>
      </rect>
     </property>
@@ -426,9 +419,9 @@
    <widget class="QTextEdit" name="config_save_name">
     <property name="geometry">
      <rect>
-      <x>780</x>
+      <x>870</x>
       <y>30</y>
-      <width>551</width>
+      <width>431</width>
       <height>31</height>
      </rect>
     </property>
@@ -436,7 +429,7 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>810</x>
+      <x>870</x>
       <y>10</y>
       <width>181</width>
       <height>16</height>
@@ -446,17 +439,30 @@
      <string>имя сохраняемого конфига</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_11">
+   <widget class="QPushButton" name="delete_config">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>10</y>
-      <width>181</width>
-      <height>41</height>
+      <x>370</x>
+      <y>60</y>
+      <width>171</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
      <string>удалить выбранный конфиг</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_9">
+    <property name="geometry">
+     <rect>
+      <x>1120</x>
+      <y>340</y>
+      <width>186</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Очистить</string>
     </property>
    </widget>
   </widget>
@@ -465,7 +471,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1027</width>
+     <width>1337</width>
      <height>26</height>
     </rect>
    </property>
