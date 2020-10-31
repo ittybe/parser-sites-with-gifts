@@ -3,6 +3,16 @@ from parser_gifts import Gifts
 from parser_oasiscatalog import Oasiscatalog
 
 
+oasiscatalog = Oasiscatalog()
+good = oasiscatalog.pars_good_main("https://www.oasiscatalog.com/item/1-000003528")
+print(good)
+print('[INFO] парсим категории oasiscatalog')
+exit()
+
+categories_o = oasiscatalog.parser_category()
+print('[INFO] категории:' + str(categories_o))
+exit()
+
 
 
 

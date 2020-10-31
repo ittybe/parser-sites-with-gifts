@@ -145,7 +145,7 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                 try:
                     good = self.gifts.parser_good(self.listWidget.item(i).text())
                     goods.append([main_page, good])
-                except IndexError as ex: 
+                except IndexError: 
                     r = requests.get(self.listWidget.item(i).text())
                     soup = BS(r.content, "html.parser")
                     urls = soup.find_all('a', class_="catalog-grid-link")
@@ -298,18 +298,26 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         for i in range(0, self.listWidget_3.count()):
             splited = self.listWidget_3.item(i).text().split('/')
             main_page = splited[0] + '//' + splited[2] + '/'
-            if main_page == 'https://happygifts.ru/':
+            if 'https://happygifts.ru' in main_page:
                 good = self.happygifts.parser_good(self.listWidget_3.item(i).text())
                 goods.append([main_page, good])
                 print(good)
-            elif main_page == 'https://gifts.ru/':
+            elif 'https://gifts.ru' in main_page:
                 good = self.gifts.parser_good(self.listWidget_3.item(i).text())
                 goods.append([main_page, good])
                 print(good)
-            elif main_page == 'https://www.oasiscatalog.com/':
+            elif 'https://www.oasiscatalog.com' in main_page:
                 good = self.oasiscatalog.parser_good(self.listWidget_3.item(i).text())
                 goods.append([main_page, good])
-                print(good)
+                if (good is None):
+                    print(good)
+                    print()
+                    print(goods)
+                    print()
+                    print(self.oasiscatalog.parser_good(self.listWidget_3.item(i).text()))
+                    print()
+                    print(self.listWidget_3.item(i).text())
+                    exit()
         if goods:
             count_pars = self.timer.timedata[3]
             if count_pars == 0:

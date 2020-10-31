@@ -4,62 +4,41 @@
 from bs4 import BeautifulSoup as BS
 import requests
 import time
-
-from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.chrome.options import Options
+import traceback
+# from selenium import webdriver
+# from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.support import expected_conditions as EC
+# from selenium.webdriver.common.by import By
+# from selenium.common.exceptions import TimeoutException
+# from selenium.webdriver.chrome.options import Options
 
 import config
 
 
 class Oasiscatalog:
     def __init__(self):
-        # not for category parsing
-        # because tree with category names appears dynamically by clicking on element
         self.main_page = 'https://www.oasiscatalog.com/' 
-        # create browser, in order to wait for loading page
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-
-        self.browser = webdriver.Chrome(config.PATH_TO_CHROMEDRIVER,chrome_options=chrome_options)
-
-    def get_loaded_page(self, url, by_what, name_of_by_what,delay = 1.5):
-        self.browser.get(url)
-        WebDriverWait(self.browser, delay).until(EC.presence_of_element_located((by_what, name_of_by_what)))
-        return self.browser.page_source      
+        
     # done 
     def parser_category(self):
-        cat_link = "https://www.oasiscatalog.com/categories/"
+        cat_link = "https://www.oasiscatalog.com/rubricator"
 
-        # self.browser.get(cat_link)
-        # self.browser.find_element(By.CLASS_NAME, "rubricator__desktop-toggler").click()
-
+        
         r = requests.get(cat_link)
         html = BS(r.content, 'html.parser')
         categories = []
 
-        for el in html.find_all(class_='subcats__link'):
-            title = el.text.strip()
-            href = el['href']
+        for el in html.find_all(class_='rubricator__l1-item'):
+            title = el.find_all(class_="rubricator__l1-item-text")[0].text
+            href = el.find_all(class_="rubricator__l1-link")[0]['href']
 
-            subcat_link = "https://www.oasiscatalog.com"+ href
-            self.browser.get(subcat_link)
-            delay = 3
-            WebDriverWait(self.browser, delay).until(EC.presence_of_element_located((By.CLASS_NAME, 'subcats__link')))
-           
-            sub_html = BS(self.browser.page_source, "html.parser")
-            sub_els = sub_html.find_all(class_='subcats__link')
-
+            sub_els = el.find_all(class_="rubricator__l2-link")           
             subcategories = []
             for sub_el in sub_els:
                 sub_title = sub_el.text.strip()
                 sub_href = sub_el["href"]
                 subcategories.append({'title': sub_title, 'href': sub_href })
             categories.append({'title': title, 'href': href, 'subcategories': subcategories})
-
         return categories
 
     def parser_goods(self, href):
@@ -69,6 +48,8 @@ class Oasiscatalog:
         while True:
             print('cтраница %i' % i)
             r = requests.get(first_page + '?page=' + str(i))
+            with open("test.html", 'wb') as f:
+                f.write(r.content)
             html = BS(r.content, 'html.parser')
             for el in html.select('.catalog__product'):
                 title = el.select('.catalog-product__title')[0]
@@ -113,44 +94,61 @@ class Oasiscatalog:
 
         except Exception as ex:
             print("[EROR]*****************************************************")
+            traceback.print_tb(ex.__traceback__)
             print(ex)
             print("[EROR]*****************************************************")
 
     # done
     def pars_good_main(self, page):
-        html_tree = self.get_loaded_page(page, By.CLASS_NAME, "price")
+        html_tree = requests.get(page).content
         html = BS(html_tree , 'html.parser')
-        name = html.select('.product-heading__title')[0].text.strip()
-        # # with open("test.html", "w") as f:
-        # #     f.write(str(html_tree))
-        # print(name)
-        price = float(html.select('.product-price2')[0].select('meta')[0]['content'])
-        section = html.select('.breadcrumbs')[0].select('.breadcrumbs__item')[-2].select('span')[0].text
-        marks = html.select('.product-heading__ribbon')
-        if marks:
-            marks = [marks[0].text.strip()]
-        color = [el.select('.product-params__item-data')[0].text.strip()
-                    for el in html.select('.product-params__item')
-                    if el.select('.product-params__item-title')[0].text.strip() == 'Цвет товара']
-        if color:
-            color = color[0]
-        href = page
-        stock = html.select('.product-control__nav-tab-text2')
-        if stock:
-            stock = float(html.select('.product-control__nav-tab-text2')[0].text.strip().replace(' ', '').replace(u'\xa0', ''))
-        elif html.select('.product-amount__item'):
-            stock = sum([float(el.select('.product-amount__row-b')[0].select('span')[0].text.replace('шт.','').strip().replace(' ', '').replace(u'\xa0', ''))
-                     for el in html.select('.product-amount__item')])
-        material = [el.select('.product-params__item-data')[0].text.strip()
-                    for el in html.select('.product-params__item')
-                    if el.select('.product-params__item-title')[0].text.strip() == 'Материал товара']
-        if material:
-            material = material[0]
-        descript = html.select('.product__description')
-        if descript:
-            descript = descript[0].text.strip()
-        return {'name': name, 'price': price, 'section': section, 'mark': marks, 'color': color, 'href': href,
+        try:
+            if (html.find_all(class_="page-404-not-supply__product")):
+                return  {'name': "NOT FOUND", 'price': '', 'section': '', 'mark': '', 'color': '', 'href': page,
+                'stocks': '', 'material':'', 'descript': ''}
+
+
+
+            name = html.select('.product-heading__title')[0].text.strip()
+            # # with open("test.html", "w") as f:
+            # #     f.write(str(html_tree))
+            # print(name)
+            price = float(html.select('.product-price2')[0].select('meta')[0]['content'])
+            section = html.select('.breadcrumbs')[0].select('.breadcrumbs__item')[-2].select('span')[0].text
+            
+            marks = html.select('.product-heading__ribbon')
+            if marks:
+                marks = [marks[0].text.strip()]
+            
+            color = [el.select('.product-params__item-data')[0].text.strip()
+                        for el in html.select('.product-params__item')
+                        if el.select('.product-params__item-title')[0].text.strip() == 'Цвет товара']
+            if color:
+                color = color[0]
+            
+            href = page
+            
+            stock = html.select('.product-control__nav-tab-text2')
+            if stock:
+                stock = float(html.select('.product-control__nav-tab-text2')[0].text.strip().replace(' ', '').replace(u'\xa0', ''))
+            elif html.select('.product-amount__item'):
+                stock = sum([float(el.select('.product-amount__row-b')[0].select('span')[0].text.replace('шт.','').strip().replace(' ', '').replace(u'\xa0', ''))
+                        for el in html.select('.product-amount__item')])
+           
+            material = [el.select('.product-params__item-data')[0].text.strip()
+                        for el in html.select('.product-params__item')
+                        if el.select('.product-params__item-title')[0].text.strip() == 'Материал товара']
+            if material:
+                material = material[0]
+
+            descript = html.select('.product__description')
+            if descript:
+                descript = descript[0].text.strip()
+            return {'name': name, 'price': price, 'section': section, 'mark': marks, 'color': color, 'href': href,
                 'stocks': stock, 'material': material, 'descript': descript}
 
-    def __del__(self):
-        self.browser.Dispose()
+        except Exception as ex:
+            traceback.print_tb(ex.__traceback__)
+            print(ex)
+            print(page)
+       
