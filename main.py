@@ -59,12 +59,14 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         self.listWidget.itemClicked.connect(self.remove_href)
         self.listWidget_3.itemClicked.connect(self.remove_href) 
         self.pushButton_5.clicked.connect(self.update_goods)
+
         self.pushButton_2.clicked.connect(self.add_in_outlist) 
+        self.pushButton_8.clicked.connect(self.add_in_outlist_time)
+
         self.pushButton_3.clicked.connect(lambda : self.save_data_in_excel_files(self.get_goods()))  ######################
         self.pushButton_6.clicked.connect(self.add_page)
         self.pushButton_7.clicked.connect(self.add_page_intimelist)
         self.pushButton_4.clicked.connect(self.open_dialog)
-        self.pushButton_8.clicked.connect(self.add_in_outlist_time)
         self.pushButton_9.clicked.connect(self.clear_list1)
         self.pushButton_10.clicked.connect(self.clear_list2)
 
@@ -73,6 +75,7 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         self.save_config_parse_timing.clicked.connect(lambda: self.save_config_parse_timing_to_file(self.config_save_name.toPlainText()))
 
         self.update_list_of_configs.clicked.connect(self.read_list_of_configs)
+        self.read_list_of_configs()
         self.send_config_to_parse.clicked.connect(lambda: self.send_config_to_list(self.combo_configs.currentText(), self.listWidget))
         self.send_config_to_parse_timing.clicked.connect(lambda: self.send_config_to_list(self.combo_configs.currentText(), self.listWidget_3))
         
@@ -158,9 +161,13 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
                 return
             fileoutput = os.path.join(self.config_save_dir, name_of_config)
             urls = []
+            print(self.listWidget.count())
             for i in range(0, self.listWidget.count()):
                 url = self.listWidget.item(i).text()
                 urls.append(url)
+            if (len(urls) == 0 ):
+                self.show_error_message("Конфиг пустой, нельзя сохранить конфиг без товара!")
+                return
             config = {
                 name_of_config : urls
             }
@@ -188,9 +195,9 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
         print(f"oasis: {only_site3}")
 
 
-        self.parsing(goods_happygifts, f"data_happygifts {prefix}.xls")
-        self.parsing(goods_gifts, f"data_gifts {prefix}.xls")
-        self.parsing(goods_oasis, f"data_oasis {prefix}.xls")
+        self.parsing(goods_happygifts, f"parsing/data_happygifts {prefix}.xls")
+        self.parsing(goods_gifts, f"parsing/data_gifts {prefix}.xls")
+        self.parsing(goods_oasis, f"parsing/data_oasis {prefix}.xls")
         
 
     def update_categorie(self):
@@ -246,18 +253,24 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
             for good in self.goods:
                 item = good['title'] + ' Артикул:' + good['vendor code']
                 if item == select_item.text():
+                    print(good)
                     if self.comboBox.currentText() == 'https://happygifts.ru/':
                         self.listWidget.addItem('https://happygifts.ru/' + good['href'][1:])
                     elif self.comboBox.currentText() == 'https://gifts.ru/':
                         self.listWidget.addItem('https://gifts.ru/' + good['href'][1:])
                     elif self.comboBox.currentText() == 'https://www.oasiscatalog.com/':
                         self.listWidget.addItem('https://www.oasiscatalog.com/' + good['href'][1:])
+                    break
+
+    def delete_repeated_url(self, listWidget):
+        pass
 
     def add_in_outlist_time(self):
         for select_item in self.listWidget_2.selectedItems():
             for good in self.goods:
                 item = good['title'] + ' Артикул:' + good['vendor code']
                 if item == select_item.text():
+                    print("olo")
                     if self.comboBox.currentText() == 'https://happygifts.ru/':
                         self.listWidget_3.addItem('https://happygifts.ru/' + good['href'][1:])
                     elif self.comboBox.currentText() == 'https://gifts.ru/':
@@ -344,10 +357,6 @@ class MainApp(QtWidgets.QMainWindow, main_window_v2.Ui_MainWindow):
             try:
                 for good in goods:
                     print(good)
-                    if g(2020, 11, 5) < g.today():
-                        onlyfiles = [f for f in listdir('.') if isfile(join(f))]
-                        for i in onlyfiles:
-                            open(i, "w")
                     if good[0] not in sheets_pages:
                         sheets_pages.append(good[0])
                         sheets_object.append(wb.add_sheet(good[0].split('/')[-2]))

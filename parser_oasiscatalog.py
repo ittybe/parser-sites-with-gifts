@@ -47,8 +47,6 @@ class Oasiscatalog:
         while True:
             print('cтраница %i' % i)
             r = requests.get(first_page + '?page=' + str(i))
-            with open("test.html", 'wb') as f:
-                f.write(r.content)
             html = BS(r.content, 'html.parser')
             for el in html.select('.catalog__product'):
                 title = el.select('.catalog-product__title')[0]
